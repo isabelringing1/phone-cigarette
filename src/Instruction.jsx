@@ -54,6 +54,10 @@ export default function Instruction({
   const shareHandled = type.id === 'share'
     && (shareWasOpened || isCompleted || feedback === 'success')
   const solidUntilNext = usesSolidUntilNextFade(type.id)
+  const timerBlocked = (type.comments_overlay || type.share_overlay) && blocked
+  const timerGateOpen = (!type.comments_overlay || commentsOpen)
+    && (!type.share_overlay || shareOpen)
+    && !timerBlocked
   const timerVisible = sessionMatchesPage && timerReady && !blocked && !overlayGated && !commentsHandled && !shareHandled
     && (!isCompleted || solidUntilNext)
   const displayed = sessionMatchesPage && (timerVisible || exiting) && !commentsHandled && !shareHandled
@@ -106,12 +110,10 @@ export default function Instruction({
   useEffect(() => {
     if (!active) return
     if (isCompleted) return
-    if (type.comments_overlay && !commentsOpen) return
-    if (type.share_overlay && !shareOpen) return
-    if ((type.comments_overlay || type.share_overlay) && blocked) return
+    if (!timerGateOpen) return
     const timer = setTimeout(() => setTimerReady(true), timeMs)
     return () => clearTimeout(timer)
-  }, [active, runId, timeMs, type.comments_overlay, type.share_overlay, commentsOpen, shareOpen, blocked, isCompleted])
+  }, [active, runId, timeMs, timerGateOpen, isCompleted])
 
   useEffect(() => {
     if (!active || !visible) return

@@ -60,8 +60,8 @@ export default function App() {
   }
 
   function dispatchScrollAction(direction, scrollTop, h) {
-    const { instructionSession: session, commentsOpen, shareOpen } = store.getState().game
-    if (commentsOpen || shareOpen) return
+    const { instructionSession: session, commentsOpen, shareOpen, health } = store.getState().game
+    if (health <= 0 || commentsOpen || shareOpen) return
     if (isSpeedUpHolding(session?.pageIndex)) return
 
     const slot = Math.round(scrollTop / h)
@@ -136,7 +136,8 @@ export default function App() {
 
     const sync = () => {
       if (ignoreScrollRef.current || !titleDismissed) return
-      if (store.getState().game.commentsOpen || store.getState().game.shareOpen) return
+      const game = store.getState().game
+      if (game.health <= 0 || game.commentsOpen || game.shareOpen) return
       const h = el.clientHeight
       const slot = Math.round(el.scrollTop / h)
       const rawIndex = currentIndex + (slot - PAGES_BEFORE)
@@ -179,7 +180,8 @@ export default function App() {
 
     const onScroll = () => {
       if (ignoreScrollRef.current) return
-      if (store.getState().game.commentsOpen || store.getState().game.shareOpen) return
+      const game = store.getState().game
+      if (game.health <= 0 || game.commentsOpen || game.shareOpen) return
 
       if (!gameStarted) {
         if (el.scrollTop !== 0) el.scrollTop = 0
@@ -247,7 +249,7 @@ export default function App() {
       )}
       <div
         ref={containerRef}
-        className={`feed${!gameStarted ? ' feed--title' : ''}`}
+        className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 ? ' feed--locked' : ''}`}
       >
         {!titleDismissed && <TitlePage />}
         {gameStarted && !titleDismissed && <div className="page page--placeholder" aria-hidden="true" />}

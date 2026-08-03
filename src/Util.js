@@ -156,15 +156,15 @@ function buildInstructionIdSequence(index, generation) {
     ids.push('comments')
   }
 
+  if (ids.includes('comments')) {
+    ids.push('scroll_comments', 'close_comments')
+  }
+
   if (rollPercent(index, 'think-2', generation) < 30) {
     ids.push('think_2')
     if (rollPercent(index, 'think-2-speed-up', generation) < 50 && !ids.includes('speed_up')) {
       ids.push('speed_up')
     }
-  }
-
-  if (ids.includes('comments')) {
-    ids.push('scroll_comments', 'close_comments')
   }
 
   const engagementRoll = rollInt(index, 'engagement', generation)
