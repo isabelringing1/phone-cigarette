@@ -20,12 +20,8 @@ const feedSlice = createSlice({
     next: (s) => { s.currentIndex = clampPageIndex(s.currentIndex + 1) },
     prev: (s) => { s.currentIndex = clampPageIndex(s.currentIndex - 1) },
     setIndex: (s, { payload }) => { s.currentIndex = clampPageIndex(payload) },
-    setScrollDirection: (s, { payload }) => {
-      if (payload && s.scrollDirection == null) {
-        s.scrollPuffId += 1
-      }
-      s.scrollDirection = payload
-    },
+    setScrollDirection: (s, { payload }) => { s.scrollDirection = payload },
+    releaseScrollPuff: (s) => { s.scrollPuffId += 1 },
     dismissTitle: (s) => { s.titleDismissed = true },
     resetFeed: (s) => {
       s.currentIndex = 0
@@ -45,6 +41,7 @@ function allJudgeableCompleted(session) {
 }
 
 const levelListener = createListenerMiddleware()
+const smokeListener = createListenerMiddleware()
 
 const gameSlice = createSlice({
   name: 'game',
@@ -204,7 +201,15 @@ const gameSlice = createSlice({
   },
 })
 
-export const { next, prev, setIndex, setScrollDirection, dismissTitle, resetFeed } = feedSlice.actions
+export const {
+  next,
+  prev,
+  setIndex,
+  setScrollDirection,
+  releaseScrollPuff,
+  dismissTitle,
+  resetFeed,
+} = feedSlice.actions
 export const {
   playerAction,
   setSpeedUpHeld,
@@ -246,6 +251,19 @@ levelListener.startListening({
   },
 })
 
+smokeListener.startListening({
+  actionCreator: instructionSucceeded,
+  effect: (action, listenerApi) => {
+    const session = listenerApi.getState().game.instructionSession
+    const state = session?.states[action.payload.instructionIndex]
+    const instructionId = session?.instructions[action.payload.instructionIndex]?.type.id
+
+    if (state?.feedback === 'success' && NAVIGATION_SCROLL_INSTRUCTION_IDS.has(instructionId)) {
+      listenerApi.dispatch(releaseScrollPuff())
+    }
+  },
+})
+
 setupInstructionJudge({
   playerAction,
   instructionVisible,
@@ -264,5 +282,9 @@ export const store = configureStore({
     game: gameSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(instructionListener.middleware, levelListener.middleware),
+    getDefaultMiddleware().prepend(
+      instructionListener.middleware,
+      levelListener.middleware,
+      smokeListener.middleware,
+    ),
 })
