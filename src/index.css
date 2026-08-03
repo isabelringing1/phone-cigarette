@@ -220,32 +220,129 @@ button{
 }
 
 .title-page {
-  position: relative;
+  --title-split: 22.35dvh;
+  --title-gold-height: 2.4dvh;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
   height: 100dvh;
-  scroll-snap-align: start;
   overflow: hidden;
   box-sizing: border-box;
-  background: #fff;
   color: #000;
   font-family: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
-.title-page-gold-bar,
+.title-page--desktop {
+  background: #fff;
+}
+
+.title-page-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+
+.title-page-half--top {
+  top: 0;
+  height: var(--title-split);
+}
+
+.title-page-half--bottom {
+  top: var(--title-split);
+  bottom: 0;
+}
+
+.title-page-canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100dvh;
+  background: #fff;
+}
+
+.title-page-canvas--bottom {
+  top: calc(-1 * var(--title-split));
+}
+
+.title-page--splitting {
+  pointer-events: none;
+}
+
+.title-page--splitting .title-page-half--top,
+.title-page--splitting .title-page-gold-short {
+  transform: translateY(-100dvh);
+}
+
+.title-page--splitting .title-page-half--bottom {
+  transform: translateY(100dvh);
+}
+
+.title-page-gold-short,
+.title-page-gold-sticker {
+  position: absolute;
+  top: calc(var(--title-split) - (var(--title-gold-height) / 2));
+  height: var(--title-gold-height);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+.title-page-gold-short {
+  left: 0;
+  z-index: 2;
+  width: 10%;
+  background: #f2b956;
+  transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+
+.title-page-gold-sticker {
+  right: 0;
+  left: 5%;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: 999px 0 0 999px;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.title-page-gold-sticker .peel-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  box-sizing: border-box;
+  transform-origin: top left;
+  user-select: none;
+}
+
+.title-page-gold-sticker-top {
+  background: #ffc35d;
+}
+
+.title-page-gold-sticker-back {
+  background: #d99a36;
+}
+
+.title-page-gold-sticker-bottom {
+  background: transparent;
+}
+
+.title-page-gold-sticker--fallback.title-page-gold-sticker--peeling {
+  transform: translateX(105vw);
+}
+
 .title-page-bottom-bar {
   position: absolute;
   right: 0;
   left: 0;
   z-index: 2;
-}
-
-.title-page-gold-bar {
-  top: 21.15dvh;
-  height: 2.4dvh;
-  background: #ffc35d;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
-}
-
-.title-page-bottom-bar {
   top: 94.75dvh;
   height: 1.7dvh;
   background: #ff2454;
@@ -352,52 +449,34 @@ button{
 }
 
 .title-page-start {
-  position: relative;
   width: 20dvh;
   height: 8dvh;
   margin-top: 4.35dvh;
+  padding-top: 1dvh;
   border-radius: 3dvh;
+  background: #ff466e;
   color: #000;
   font-family: 'Marlboro', Impact, serif;
   font-size: 4.55dvh;
   font-weight: 400;
   letter-spacing: 0;
-  opacity: 0;
-  transition: opacity 0.1s ease;
+  transition: transform 100ms ease, background 100ms ease;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.title-page-start.peel-ready {
-  opacity: 1;
+.title-page-start:active:not(:disabled) {
+  transform: scale(0.96);
+  background: #f83c66;
 }
 
-.title-page-start .peel-layer {
-  color: #000000b5;
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: inherit;
-  box-sizing: border-box;
-  transform-origin: top left;
-  user-select: none;
+.title-page-start:focus-visible {
+  outline: 0.35dvh solid #171717b9;
+  outline-offset: 0.35dvh;
 }
 
-.title-page-start-top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ff466e;
-}
-
-.title-page-start-back {
-  background: #db899d;
-}
-
-.title-page-start-bottom {
-  background: #fff;
+.title-page-start:disabled {
+  cursor: default;
 }
 
 .peel-svg-clip-element {
@@ -409,24 +488,12 @@ button{
   opacity: 0;
 }
 
-.title-page-start-hit-area {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: inherit;
-  background: transparent;
-  color: transparent;
-  touch-action: manipulation;
-}
-
-.title-page-start-hit-area:focus-visible {
-  outline: 0.35dvh solid #171717b9;
-  outline-offset: 0.35dvh;
+@media (prefers-reduced-motion: reduce) {
+  .title-page-half,
+  .title-page-gold-short,
+  .title-page-gold-sticker {
+    transition-duration: 1ms;
+  }
 }
 
 .page {

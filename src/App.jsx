@@ -8,7 +8,7 @@ import GameOver from './GameOver.jsx'
 import TitlePage from './TitlePage.jsx'
 import CommentsPanel from './CommentsPanel.jsx'
 import SharePanel from './SharePanel.jsx'
-import { dismissTitle, beginGameplay, setIndex, setScrollDirection, playerAction, closeComments, closeShare, startGame, store } from './store.js'
+import { setIndex, setScrollDirection, playerAction, closeComments, closeShare, startGame, store } from './store.js'
 import { isSpeedUpHolding } from './instructionJudge.js'
 import { MIN_PAGE_INDEX } from './pageMeta.js'
 
@@ -82,42 +82,13 @@ export default function App() {
     }
   }
 
-  useEffect(() => {
-    if (!gameStarted || titleDismissed) return
-
-    const el = containerRef.current
-    if (!el) return
-
-    ignoreScrollRef.current = true
-    el.scrollTo({ top: el.clientHeight, behavior: 'smooth' })
-
-    let done = false
-    const finish = () => {
-      if (done) return
-      done = true
-      dispatch(dismissTitle())
-      dispatch(beginGameplay())
-      ignoreScrollRef.current = false
-    }
-
-    const interval = setInterval(() => {
-      if (Math.abs(el.scrollTop - el.clientHeight) < 2) finish()
-    }, 50)
-    const timeout = setTimeout(finish, 800)
-
-    return () => {
-      clearInterval(interval)
-      clearTimeout(timeout)
-    }
-  }, [gameStarted, titleDismissed, dispatch])
-
   useLayoutEffect(() => {
     const el = containerRef.current
     if (!el) return
 
     ignoreScrollRef.current = true
 
-    if (titleDismissed) {
+    if (gameStarted) {
       el.scrollTop = PAGES_BEFORE * el.clientHeight
       lastScrollTopRef.current = el.scrollTop
     } else {
@@ -127,7 +98,7 @@ export default function App() {
 
     dispatch(setScrollDirection(null))
     requestAnimationFrame(() => { ignoreScrollRef.current = false })
-  }, [currentIndex, titleDismissed, dispatch])
+  }, [currentIndex, gameStarted, titleDismissed, dispatch])
 
   useEffect(() => {
     const el = containerRef.current
@@ -251,15 +222,14 @@ export default function App() {
         ref={containerRef}
         className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 ? ' feed--locked' : ''}`}
       >
-        {!titleDismissed && <TitlePage />}
-        {gameStarted && !titleDismissed && <div className="page page--placeholder" aria-hidden="true" />}
-        {gameStarted && titleDismissed && Array.from({ length: WINDOW }, (_, slot) => (
+        {gameStarted && Array.from({ length: WINDOW }, (_, slot) => (
           <Page
             key={`${feedGeneration}-${currentIndex - PAGES_BEFORE + slot}`}
             index={currentIndex - PAGES_BEFORE + slot}
-            active={slot === PAGES_BEFORE}
+            active={titleDismissed && slot === PAGES_BEFORE}
           />
         ))}
+        {!titleDismissed && <TitlePage />}
       </div>
     </>
   )
