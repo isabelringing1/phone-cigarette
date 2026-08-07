@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Bookmark, Heart, MessageCircle } from 'lucide-react'
 import share from '/share.png'
 import { generateCaption, isIconInstructionHighlighted } from './Util.js'
+import { generatePageUsername } from './usernameGenerator.js'
 import { playerAction, togglePageEngagement, openComments, openShare } from './store.js'
 
 export default function PageMenu({ index, active }) {
@@ -15,7 +16,10 @@ export default function PageMenu({ index, active }) {
   const shareOpen = useSelector((s) => s.game.shareOpen)
   const feedGeneration = useSelector((s) => s.feed.feedGeneration)
   const level = useSelector((s) => s.game.level)
-  const name = `@user_${index}`
+  const name = useMemo(
+    () => generatePageUsername(index, feedGeneration),
+    [index, feedGeneration],
+  )
   const caption = useMemo(() => generateCaption(level), [index, feedGeneration, level])
 
   const onButton = (name) => {
