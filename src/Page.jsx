@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PageMenu from './PageMenu.jsx'
 import PageDuration from './PageDuration.jsx'
@@ -24,6 +24,7 @@ export default function Page({ index, active }) {
   const pointerStartRef = useRef(null)
   const lastTapRef = useRef(null)
   const lastDoubleTapRef = useRef(0)
+  const [likePulsing, setLikePulsing] = useState(false)
   const instructions = useMemo(
     () => generateInstructions(index, feedGeneration, zenMode),
     [index, feedGeneration, zenMode],
@@ -56,6 +57,7 @@ export default function Page({ index, active }) {
     dispatch(playerAction({ type: 'button', name: 'like' }))
     if (!liked) {
       dispatch(togglePageEngagement({ pageIndex: index, name: 'like' }))
+      setLikePulsing(true)
     }
   }
 
@@ -100,7 +102,13 @@ export default function Page({ index, active }) {
         likeFromDoubleTap()
       }}
     >
-      <PageMenu index={index} active={active} />
+      <PageMenu
+        index={index}
+        active={active}
+        likePulsing={likePulsing}
+        onLikeActivated={() => setLikePulsing(true)}
+        onLikePulseEnd={() => setLikePulsing(false)}
+      />
       <Instructions
         instructions={instructions}
         active={active}

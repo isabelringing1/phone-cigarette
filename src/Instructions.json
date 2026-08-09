@@ -77,7 +77,7 @@
   {
     "id": "send_post",
     "display_text": "Select",
-    "time_bounds": [1000, 1000],
+    "time_bounds": [0, 0],
     "time_limit": 2000,
     "blocking": true,
     "share_overlay": true,

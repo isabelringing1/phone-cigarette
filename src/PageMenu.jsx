@@ -6,7 +6,13 @@ import { generateCaption, isIconInstructionHighlighted } from './Util.js'
 import { generatePageUsername } from './usernameGenerator.js'
 import { playerAction, togglePageEngagement, openComments, openShare } from './store.js'
 
-export default function PageMenu({ index, active }) {
+export default function PageMenu({
+  index,
+  active,
+  likePulsing,
+  onLikeActivated,
+  onLikePulseEnd,
+}) {
   const dispatch = useDispatch()
   const liked = useSelector((s) => s.game.pageEngagement[index]?.liked ?? false)
   const saved = useSelector((s) => s.game.pageEngagement[index]?.saved ?? false)
@@ -65,9 +71,13 @@ export default function PageMenu({ index, active }) {
       <div className={`page-actions${chromeHidden ? ' page-actions--hidden' : ''}`}>
         <button
           type="button"
-          className={`page-action${liked ? ' page-action--liked' : ''}${highlightLike ? ' page-action--highlight' : ''}`}
+          className={`page-action${liked ? ' page-action--liked' : ''}${highlightLike ? ' page-action--highlight' : ''}${likePulsing ? ' page-action--like-pulse' : ''}`}
           aria-label="Like"
-          onClick={() => onButton('like')}
+          onClick={() => {
+            onButton('like')
+            if (!liked) onLikeActivated()
+          }}
+          onAnimationEnd={onLikePulseEnd}
         >
           <Heart size={28} />
         </button>

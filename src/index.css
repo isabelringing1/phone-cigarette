@@ -569,6 +569,15 @@ button{
 }
 .page-actions button:active { transform: scale(0.92); }
 
+@keyframes like-button-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+}
+
+.page-actions .page-action--like-pulse {
+  animation: like-button-pulse 200ms ease-out;
+}
+
 .page-actions .page-action svg {
   fill: #fff;
   stroke: #fff;
@@ -676,7 +685,7 @@ button{
 
 .instruction {
   position: absolute;
-
+  color: #ffff9c;
 }
 
 .instruction-scroll_down {
@@ -693,6 +702,11 @@ button{
 }
 
 .instruction-send_post {
+  --instruction-timer-base: #000;
+  color: #000 !important;
+}
+
+.instruction-share_post {
   --instruction-timer-base: #000;
   color: #000 !important;
 }
@@ -715,7 +729,6 @@ button{
   font-weight: 400;
   white-space: nowrap;
   opacity: 0;
-  color: #ffff9c;
   font-family: 'Roboto Condensed';
   visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0.4s, color 0.15s ease;
@@ -1254,14 +1267,7 @@ button{
   margin-top: -0.8dvh;
   z-index: -1;
   position: absolute;
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(255, 236, 120, 1) 0%,
-      rgba(255, 236, 120, 0.9) 45%,
-      transparent 75%
-    ),
-    #ffffff00;
+  background: radial-gradient(circle at center, rgba(255, 236, 120, 1) 20%, rgba(255, 236, 120, 0.9) 50%, transparent 85%), #ffffff00;
 }
 
 .share-component-label {
