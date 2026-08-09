@@ -48,10 +48,17 @@ export default function App() {
     )
   }
 
+  function isFinalScrollVisible(session) {
+    if (!session?.instructions?.length) return false
+    const finalIndex = session.instructions.length - 1
+    return session.instructions[finalIndex].type.id === 'scroll_down'
+      && session.states[finalIndex]?.status === 'pending'
+      && session.states[finalIndex].visible
+  }
+
   function tryRevertZenScroll(el, h) {
     const { instructionSession, zenMode } = store.getState().game
-    if (!zenMode || !hadActiveJudgeable(instructionSession)) return false
-    if (instructionSession.states.some((s) => s.feedback === 'success')) return false
+    if (!zenMode || isFinalScrollVisible(instructionSession)) return false
     ignoreScrollRef.current = true
     el.scrollTop = PAGES_BEFORE * h
     lastScrollTopRef.current = el.scrollTop

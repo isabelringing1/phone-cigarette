@@ -253,6 +253,17 @@ export default function Instruction({
           onContextMenu={onSpeedUpContextMenu}
           aria-label={type.display_text}
         />
+
+        <button
+          type="button"
+          className={`speed-up-gradient speed-up-left${speedUpPressed ? ' speed-up-gradient--pressed' : ''}${shown ? ' speed-up-gradient--shown' : ''}${exiting ? ' speed-up-gradient--exiting' : ''}`}
+          onPointerDown={onSpeedUpPress}
+          onPointerUp={onSpeedUpRelease}
+          onPointerCancel={onSpeedUpRelease}
+          onContextMenu={onSpeedUpContextMenu}
+          aria-label={type.display_text}
+        />
+        
         <div
           className={`instruction instruction--anchor-${align}`}
           style={{ left: `${position.vw}vw`, bottom: `${position.dvh}dvh` }}
