@@ -723,6 +723,14 @@ button{
   transform: translate(-100%, -50%);
 }
 
+.instruction--below-target {
+  transform: translateX(-50%);
+}
+
+.instruction--hidden {
+  opacity: 0;
+}
+
 .instruction-text {
   display: block;
   font-size: 8vw;
@@ -1174,6 +1182,12 @@ button{
   background: #d3d3d3;
 }
 
+.share-title-text {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .share-close {
   position: absolute;
   right: 12px;
@@ -1230,6 +1244,7 @@ button{
 }
 
 .share-component {
+  position: relative;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -1255,10 +1270,21 @@ button{
 }
 
 .share-component-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 5.4dvh;
   height: 5.4dvh;
   border-radius: 50%;
   background: #ccc;
+}
+
+.share-component-avatar {
+  width: 68%;
+  height: 68%;
+  color: #fff;
+  fill: currentColor;
 }
 
 .share-component-icon--highlight {
@@ -1270,9 +1296,86 @@ button{
   background: radial-gradient(circle at center, rgba(255, 236, 120, 1) 20%, rgba(255, 236, 120, 0.9) 50%, transparent 85%), #ffffff00;
 }
 
+.share-component-selected-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.share-component-check {
+  position: absolute;
+  right: -4px;
+  bottom: -3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #fe2c55;
+  color: #fff;
+}
+
+.share-component-check svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 4;
+}
+
 .share-component-label {
   width: 48px;
   height: 10px;
   border-radius: 4px;
   background: #d3d3d3;
+}
+
+.share-panel--confirm .share-rows {
+  flex: 0 0 auto;
+}
+
+.share-panel--confirm .share-row {
+  flex: 0 0 auto;
+}
+
+.share-compose {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #eee;
+}
+
+.share-message-placeholder {
+  flex: 1;
+  color: #aaa;
+  font-size: 18px;
+}
+
+.share-send-button {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #fe2c55;
+  color: #fff;
+  box-shadow: 0 0 18px 8px rgba(255, 236, 120, 0.9);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.share-send-button:active {
+  transform: scale(0.98);
+}
+
+.share-reopen-prompt {
+  z-index: 3;
+  pointer-events: none;
 }

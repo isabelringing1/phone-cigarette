@@ -168,11 +168,11 @@ function buildInstructionIdSequence(index, generation) {
   }
 
   const engagementRoll = rollInt(index, 'engagement', generation)
-  if (engagementRoll <= 28) {
+  if (engagementRoll <= 30) {
     ids.push('like')
-  } else if (engagementRoll <= 36) {
+  } else if (engagementRoll <= 50) {
     ids.push('save')
-  } else if (engagementRoll <= 44) {
+  } else if (engagementRoll <= 70) {
     ids.push('share', 'send_post')
   }
 

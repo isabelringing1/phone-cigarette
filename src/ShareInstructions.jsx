@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import Instruction from './Instruction.jsx'
 
-export default function ShareInstructions() {
+export default function ShareInstructions({ sendPostPosition, hideSendPostInstruction }) {
   const shareOpen = useSelector((s) => s.game.shareOpen)
   const currentIndex = useSelector((s) => s.feed.currentIndex)
   const session = useSelector((s) => s.game.instructionSession)
@@ -27,7 +27,10 @@ export default function ShareInstructions() {
             active
             pageIndex={currentIndex}
             instructionIndex={instructionIndex}
-            position={instruction.type.position}
+            position={instruction.type.id === 'send_post' && sendPostPosition
+              ? sendPostPosition
+              : instruction.type.position}
+            hidden={instruction.type.id === 'send_post' && hideSendPostInstruction}
           />
         )
       })}

@@ -23,6 +23,7 @@ export default function Instruction({
   pageIndex,
   instructionIndex,
   position,
+  hidden = false,
 }) {
   const dispatch = useDispatch()
   const session = useSelector((s) => s.game.instructionSession)
@@ -212,6 +213,10 @@ export default function Instruction({
         : ''
 
   const align = anchorAlign(position.anchor)
+  const positionedBelowTarget = position.topPx != null
+  const positionStyle = positionedBelowTarget
+    ? { left: `${position.leftPx}px`, top: `${position.topPx}px` }
+    : { left: `${position.vw}vw`, bottom: `${position.dvh}dvh` }
 
   const onSpeedUpPress = (event) => {
     if (!visible || speedUpPressed || event.button !== 0) return
@@ -285,8 +290,8 @@ export default function Instruction({
 
   return (
     <div
-      className={`instruction instruction--anchor-${align} instruction-${type.id}${type.comments_overlay ? ' instruction--comments-overlay' : ''}${type.share_overlay ? ' instruction--share-overlay' : ''}`}
-      style={{ left: `${position.vw}vw`, bottom: `${position.dvh}dvh` }}
+      className={`instruction instruction--anchor-${align}${positionedBelowTarget ? ' instruction--below-target' : ''}${hidden ? ' instruction--hidden' : ''} instruction-${type.id}${type.comments_overlay ? ' instruction--comments-overlay' : ''}${type.share_overlay ? ' instruction--share-overlay' : ''}`}
+      style={positionStyle}
     >
       <span
         className={`instruction-text${feedbackClass}${shown ? ' instruction-text--shown' : ''}${showTimer ? ' instruction-text--timer' : ''}${showExitFade ? ' instruction-text--fade-out' : ''}`}

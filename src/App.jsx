@@ -220,10 +220,7 @@ export default function App() {
         />
       )}
       {titleDismissed && (
-        <SharePanel
-          isOpen={shareOpen}
-          onClose={() => dispatch(closeShare())}
-        />
+        <SharePanel isOpen={shareOpen} />
       )}
       <div
         ref={containerRef}

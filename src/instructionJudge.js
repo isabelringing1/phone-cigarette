@@ -91,6 +91,7 @@ export function setupInstructionJudge({
       const { pageIndex, instructionIndex } = action.payload
       const { zenMode, instructionSession: session } = api.getState().game
       if (!session || session.pageIndex !== pageIndex) return
+      const visibilityRun = session.states[instructionIndex]?.visibleRun
 
       const previousIndex = instructionIndex - 1
       const previousInstruction = session.instructions[previousIndex]
@@ -120,7 +121,13 @@ export function setupInstructionJudge({
           if (!current || current.pageIndex !== pageIndex) return
 
           const state = current.states[instructionIndex]
-          if (!state || state.status !== 'pending' || !state.visible || state.feedback) return
+          if (
+            !state
+            || state.status !== 'pending'
+            || !state.visible
+            || state.visibleRun !== visibilityRun
+            || state.feedback
+          ) return
 
           api.dispatch(instructionCompleted({ instructionIndex }))
         }
@@ -143,7 +150,13 @@ export function setupInstructionJudge({
       if (!current || current.pageIndex !== pageIndex) return
 
       const state = current.states[instructionIndex]
-      if (!state || state.status !== 'pending' || !state.visible || state.feedback) return
+      if (
+        !state
+        || state.status !== 'pending'
+        || !state.visible
+        || state.visibleRun !== visibilityRun
+        || state.feedback
+      ) return
 
       if (current.instructions[instructionIndex].type.id === 'scroll_comments') {
         const { commentsOpen, commentsScrolling } = api.getState().game

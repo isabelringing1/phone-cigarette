@@ -20,6 +20,7 @@ export default function PageMenu({
   const session = useSelector((s) => s.game.instructionSession)
   const commentsOpen = useSelector((s) => s.game.commentsOpen)
   const shareOpen = useSelector((s) => s.game.shareOpen)
+  const shareNeedsReopen = useSelector((s) => s.game.shareNeedsReopen)
   const feedGeneration = useSelector((s) => s.feed.feedGeneration)
   const level = useSelector((s) => s.game.level)
   const name = useMemo(
@@ -53,7 +54,7 @@ export default function PageMenu({
   const highlightSave = sessionMatchesPage
     && isIconInstructionHighlighted(session, 'save', iconHighlightContext)
   const highlightShare = sessionMatchesPage
-    && isIconInstructionHighlighted(session, 'share', iconHighlightContext)
+    && (shareNeedsReopen || isIconInstructionHighlighted(session, 'share', iconHighlightContext))
 
   return (
     <>
@@ -106,6 +107,15 @@ export default function PageMenu({
           <img src={share} alt="" width={28} height={28} />
         </button>
       </div>
+      {sessionMatchesPage && shareNeedsReopen && (
+        <div
+          className="instruction instruction--anchor-right share-reopen-prompt"
+          style={{ left: '80vw', bottom: '10dvh' }}
+          aria-hidden="true"
+        >
+          <span className="instruction-text instruction-text--shown">Open</span>
+        </div>
+      )}
     </>
   )
 }

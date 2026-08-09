@@ -61,6 +61,7 @@ const gameSlice = createSlice({
     commentsTopBlueText: null,
     commentsScrolling: false,
     shareOpen: false,
+    shareNeedsReopen: false,
   },
   reducers: {
     playerAction: () => {},
@@ -82,9 +83,26 @@ const gameSlice = createSlice({
       s.commentsOpen = false
       s.commentsScrolling = false
       s.shareOpen = true
+      s.shareNeedsReopen = false
     },
     closeShare: (s) => {
       s.shareOpen = false
+      s.shareNeedsReopen = false
+    },
+    interruptShare: (s) => {
+      s.shareOpen = false
+      const session = s.instructionSession
+      const sendPostIndex = session?.instructions.findIndex(
+        (instruction) => instruction.type.id === 'send_post',
+      ) ?? -1
+      const sendPostState = sendPostIndex >= 0 ? session.states[sendPostIndex] : null
+      if (sendPostState?.status === 'pending') {
+        sendPostState.visible = false
+        sendPostState.feedback = null
+        s.shareNeedsReopen = true
+      } else {
+        s.shareNeedsReopen = false
+      }
     },
     startGame: (s, { payload }) => {
       s.gameStarted = true
@@ -123,6 +141,7 @@ const gameSlice = createSlice({
         states: instructions.map(() => ({
           status: 'pending',
           visible: false,
+          visibleRun: 0,
           feedback: null,
         })),
       }
@@ -134,6 +153,7 @@ const gameSlice = createSlice({
       const state = session.states[instructionIndex]
       if (state.visible) return
       state.visible = true
+      state.visibleRun = (state.visibleRun ?? 0) + 1
     },
     instructionSucceeded: (s, { payload: { instructionIndex } }) => {
       const session = s.instructionSession
@@ -197,6 +217,7 @@ const gameSlice = createSlice({
       s.commentsTopBlueText = null
       s.commentsScrolling = false
       s.shareOpen = false
+      s.shareNeedsReopen = false
     },
   },
 })
@@ -218,6 +239,7 @@ export const {
   closeComments,
   openShare,
   closeShare,
+  interruptShare,
   startGame,
   beginGameplay,
   setLevel,
