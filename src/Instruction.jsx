@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { anchorAlign, INSTRUCTION_FADE_MS, isInstructionBlocked } from './Util.js'
+import {
+  anchorAlign,
+  drawInstructionDisplayText,
+  INSTRUCTION_FADE_MS,
+  isInstructionBlocked,
+} from './Util.js'
 import { instructionVisible, playerAction, setSpeedUpHeld } from './store.js'
 
 const FADE_MS = INSTRUCTION_FADE_MS
@@ -41,6 +46,7 @@ export default function Instruction({
   const [commentsWasOpened, setCommentsWasOpened] = useState(false)
   const [shareWasOpened, setShareWasOpened] = useState(false)
   const [thinkDisplayText, setThinkDisplayText] = useState(null)
+  const thinkTextDrawnForRunRef = useRef(false)
 
   const sessionMatchesPage = session?.pageIndex === pageIndex
   const instructionState = sessionMatchesPage ? session.states[instructionIndex] : null
@@ -104,6 +110,7 @@ export default function Instruction({
     setCommentsWasOpened(false)
     setShareWasOpened(false)
     setThinkDisplayText(null)
+    thinkTextDrawnForRunRef.current = false
     dispatch(setSpeedUpHeld(false))
     setRunId((id) => id + 1)
   }, [active, dispatch])
@@ -122,11 +129,15 @@ export default function Instruction({
   }, [active, visible, pageIndex, instructionIndex, dispatch])
 
   useEffect(() => {
-    if (!visible || !usesThinkDisplayTexts(type.id) || thinkDisplayText) return
-    const texts = type.display_texts
-    if (!texts?.length) return
-    setThinkDisplayText(texts[Math.floor(Math.random() * texts.length)])
-  }, [visible, type.id, type.display_texts, thinkDisplayText])
+    if (
+      !visible
+      || !usesThinkDisplayTexts(type.id)
+      || thinkDisplayText
+      || thinkTextDrawnForRunRef.current
+    ) return
+    thinkTextDrawnForRunRef.current = true
+    setThinkDisplayText(drawInstructionDisplayText(type))
+  }, [visible, type, thinkDisplayText])
 
   useEffect(() => {
     if (type.unjudgeable) return

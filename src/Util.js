@@ -12,6 +12,46 @@ export function isMobileDevice() {
 }
 
 const instructionTypeById = Object.fromEntries(instructionTypes.map((type) => [type.id, type]))
+const instructionTextBags = new Map()
+
+function shuffle(items) {
+  const shuffled = [...items]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
+export function drawInstructionDisplayText(type) {
+  const texts = type.display_texts
+  if (!texts?.length) return type.display_text ?? ''
+
+  const sourceKey = JSON.stringify(texts)
+  let bag = instructionTextBags.get(type.id)
+  if (!bag || bag.sourceKey !== sourceKey) {
+    bag = { sourceKey, remaining: [], last: null }
+    instructionTextBags.set(type.id, bag)
+  }
+
+  if (bag.remaining.length === 0) {
+    bag.remaining = shuffle(texts)
+
+    // Avoid an immediate repeat where one shuffled cycle meets the next.
+    const nextIndex = bag.remaining.length - 1
+    if (bag.remaining.length > 1 && bag.remaining[nextIndex] === bag.last) {
+      const swapIndex = bag.remaining.findIndex((text) => text !== bag.last)
+      ;[bag.remaining[nextIndex], bag.remaining[swapIndex]] = [
+        bag.remaining[swapIndex],
+        bag.remaining[nextIndex],
+      ]
+    }
+  }
+
+  const text = bag.remaining.pop()
+  bag.last = text
+  return text
+}
 
 export function anchorAlign(anchor) {
   if (anchor === 'center left') return 'left'
