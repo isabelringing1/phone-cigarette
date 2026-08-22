@@ -29,20 +29,6 @@ export default function PageMenu({
   )
   const caption = useMemo(() => generateCaption(level), [index, feedGeneration, level])
 
-  const onButton = (name) => {
-    if (!active) return
-    dispatch(playerAction({ type: 'button', name }))
-    if (name === 'like' || name === 'save') {
-      dispatch(togglePageEngagement({ pageIndex: index, name }))
-    }
-    if (name === 'comment') {
-      dispatch(openComments())//{ topBlueText: 'what is special 4th of july cheese' }
-    }
-    if (name === 'share') {
-      dispatch(openShare())
-    }
-  }
-
   const chromeHidden = active && speedUpHeld
   const sessionMatchesPage = active && session?.pageIndex === index
   const iconHighlightContext = { commentsOpen, shareOpen }
@@ -55,6 +41,26 @@ export default function PageMenu({
     && isIconInstructionHighlighted(session, 'save', iconHighlightContext)
   const highlightShare = sessionMatchesPage
     && (shareNeedsReopen || isIconInstructionHighlighted(session, 'share', iconHighlightContext))
+
+  const onButton = (name) => {
+    if (!active) return false
+    if (name === 'like' && !highlightLike) return false
+    if (name === 'save' && !highlightSave) return false
+    if (name === 'comment' && !highlightComments) return false
+    if (name === 'share' && !highlightShare) return false
+
+    dispatch(playerAction({ type: 'button', name }))
+    if (name === 'like' || name === 'save') {
+      dispatch(togglePageEngagement({ pageIndex: index, name }))
+    }
+    if (name === 'comment') {
+      dispatch(openComments())//{ topBlueText: 'what is special 4th of july cheese' }
+    }
+    if (name === 'share') {
+      dispatch(openShare())
+    }
+    return true
+  }
 
   return (
     <>
@@ -75,8 +81,8 @@ export default function PageMenu({
           className={`page-action${liked ? ' page-action--liked' : ''}${highlightLike ? ' page-action--highlight' : ''}${likePulsing ? ' page-action--like-pulse' : ''}`}
           aria-label="Like"
           onClick={() => {
-            onButton('like')
-            if (!liked) onLikeActivated()
+            const performed = onButton('like')
+            if (performed && !liked) onLikeActivated()
           }}
           onAnimationEnd={onLikePulseEnd}
         >

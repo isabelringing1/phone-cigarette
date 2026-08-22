@@ -51,6 +51,7 @@ export default function Page({ index, active }) {
     })
 
   const likeFromDoubleTap = () => {
+    if (!likeIsPrompted) return
     const now = performance.now()
     if (now - lastDoubleTapRef.current < DOUBLE_TAP_MS) return
     lastDoubleTapRef.current = now

@@ -8,7 +8,7 @@ import { getSendPostTargetIndex } from './Util.js'
 import { interruptShare, playerAction } from './store.js'
 
 const SLIDE_MS = 150
-const TYPING_INTERVAL_MS = 35
+const TYPING_INTERVAL_MS = 25
 const SHARE_COUNT = 20
 const ROW_COUNT = 3
 
