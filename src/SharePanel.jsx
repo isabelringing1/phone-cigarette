@@ -3,6 +3,7 @@ import { Search, X } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import ShareComponent from './ShareComponent.jsx'
 import ShareInstructions from './ShareInstructions.jsx'
+import shareMessages from './share.json'
 import { getSendPostTargetIndex } from './Util.js'
 import { interruptShare, playerAction } from './store.js'
 
@@ -20,6 +21,10 @@ export default function SharePanel({ isOpen }) {
   const [mounted, setMounted] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
   const [sendPostPosition, setSendPostPosition] = useState(null)
+  const shareMessage = useMemo(
+    () => shareMessages[Math.floor(Math.random() * shareMessages.length)],
+    [currentIndex],
+  )
   const rows = useMemo(
     () =>
       Array.from({ length: ROW_COUNT }, (_, rowIndex) =>
@@ -157,7 +162,7 @@ export default function SharePanel({ isOpen }) {
         </div>
         {selectedIndex != null && (
           <div className="share-compose">
-            <div className="share-message-placeholder">Write a message...</div>
+            <div className="share-message-placeholder">{shareMessage}</div>
             <button type="button" className="share-send-button" onClick={handleSend}>
               Send
             </button>

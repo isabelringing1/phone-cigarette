@@ -8,7 +8,7 @@
   },
   {
     "id": "think",
-    "display_texts": ["Squint", "Snort", "Double-Take", "Rub your face", "Cringe", "Raise an Eyebrow", "Frown"],
+    "display_texts": ["Double-Take", "Space out", "Yawn", "Rub your eyes", "Cringe", "Scratch your face", "Frown"],
     "time_bounds": [2000, 2000],
     "duration_bounds": [2000, 2000],
     "unjudgeable": true,
@@ -17,7 +17,7 @@
   },
   {
     "id": "think_2",
-    "display_texts": ["Check the Time", "Space Out", "Scratch Your Head", "Yawn"],
+    "display_texts": ["Check the time", "Feel inexplicably anxious", "Think about everything you have to do today", "Wonder if your ex has seen this", "Wonder if you should get back to work"],
     "time_bounds": [2000, 2000],
     "duration_bounds": [2000, 2000],
     "unjudgeable": true,

@@ -686,6 +686,8 @@ button{
 .instruction {
   position: absolute;
   color: #ffff9c;
+  width: max-content;
+  max-width: 80vw;
 }
 
 .instruction-scroll_down {
@@ -735,7 +737,11 @@ button{
   display: block;
   font-size: 8vw;
   font-weight: 400;
-  white-space: nowrap;
+  width: 100%;
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+  line-height: 1.1;
   opacity: 0;
   font-family: 'Roboto Condensed';
   visibility: hidden;
@@ -810,6 +816,12 @@ button{
   padding: max(24px, env(safe-area-inset-top, 0px)) 0 max(24px, env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.55);
+  animation: game-over-fade-in 0.4s ease-out;
+}
+
+@keyframes game-over-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .game-over-popup {
@@ -847,7 +859,7 @@ button{
 }
 
 .game-over-message {
-  margin: 3.2dvh 0 0;
+  margin: 1dvh 0 0;
   font-size: 5vw;
   line-height: 1.28;
   
@@ -858,14 +870,12 @@ button{
   flex-direction: column;
   align-items: center;
   gap: 1.2dvh;
-  margin-top: 4.5dvh;
+  margin-top: 3.5dvh;
 }
 
 .game-over-button {
-  width: 32vw;
-  min-width: 128px;
-  max-width: 160px;
-  padding: 1dvh 12px 0.6dvh;
+  width: 30vw;
+  padding: 1.2dvh 6px 1dvh;
   border: 0;
   border-radius: 18px;
   color: #000;
@@ -877,11 +887,11 @@ button{
 }
 
 .game-over-back {
-  background: #bdbdbd;
+  background: #ff6082;
 }
 
 .game-over-share {
-  background: #50f448;
+  background: #d8d8d8;
 }
 
 .game-over-button:active {

@@ -75,14 +75,14 @@ export default function GameOver() {
   return (
     <div className="game-over-overlay" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
       <div className="game-over-popup">
-        <h1 id="game-over-title" className="game-over-title">Smoke<span style={{ fontSize: '1.5rem' }}> </span>Break<span style={{ fontSize: '1.5rem' }}> </span>Over</h1>
-        <p className="game-over-duration">Time Taken: {duration}</p>
+        <h1 id="game-over-title" className="game-over-title">Smoke<span style={{ fontSize: '1.3rem' }}> </span>Break<span style={{ fontSize: '1.3rem' }}> </span>Over</h1>
+        <p className="game-over-duration">Time: {duration}</p>
         <p className="game-over-message">
-          Please resume your regular tasks. Return to Phone Cigarette as needed.
+          The time to resume normal life has arrived. Please return to Phone Cigarette as needed.
         </p>
         <div className="game-over-actions">
           <button type="button" className="game-over-button game-over-back" onClick={onBack}>
-            Back
+            Restart
           </button>
           <button type="button" className="game-over-button game-over-share" onClick={onShare}>
             {shareButtonText}

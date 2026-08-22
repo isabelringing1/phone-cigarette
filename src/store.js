@@ -186,11 +186,7 @@ const gameSlice = createSlice({
       if (!NAVIGATION_SCROLL_INSTRUCTION_IDS.has(instructionId)) {
         s.progress = Math.max(0, s.progress - INSTRUCTION_PROGRESS_PERCENT)
       }
-      if (
-        s.progress === 0
-        && instructionId === 'scroll_down'
-        && s.health > 0
-      ) {
+      if (s.progress === 0 && s.health > 0) {
         s.health = 0
         if (s.gameStartedAt != null && s.gameDurationMs == null) {
           s.gameDurationMs = Date.now() - s.gameStartedAt

@@ -135,11 +135,8 @@ export function generateCaption(level = 1) {
 function buildInstructionIdSequence(index, generation) {
   const ids = ['watch']
 
-  if (rollPercent(index, 'scroll-down-early', generation) < 20) {
+  if (rollPercent(index, 'scroll-down-early', generation) < 10) {
     ids.push('scroll_down')
-    if (index > MIN_PAGE_INDEX && rollPercent(index, 'scroll-up', generation) < 5) {
-      //ids.push('scroll_up')
-    }
     return ids
   }
 
@@ -160,7 +157,7 @@ function buildInstructionIdSequence(index, generation) {
     ids.push('scroll_comments', 'close_comments')
   }
 
-  if (rollPercent(index, 'think-2', generation) < 30) {
+  if (rollPercent(index, 'think-2', generation) < 50) {
     ids.push('think_2')
     if (rollPercent(index, 'think-2-speed-up', generation) < 50 && !ids.includes('speed_up')) {
       ids.push('speed_up')
@@ -168,20 +165,16 @@ function buildInstructionIdSequence(index, generation) {
   }
 
   const engagementRoll = rollInt(index, 'engagement', generation)
-  if (engagementRoll <= 30) {
+  if (engagementRoll <= 40) {
     ids.push('like')
   } else if (engagementRoll <= 50) {
     ids.push('save')
-  } else if (engagementRoll <= 70) {
+  } else if (engagementRoll <= 60) {
     ids.push('share', 'send_post')
   }
 
   if (ids[ids.length - 1] !== 'scroll_down') {
     ids.push('scroll_down')
-  }
-
-  if (index > MIN_PAGE_INDEX && rollPercent(index, 'scroll-up', generation) < 5) {
-    //ids.push('scroll_up')
   }
   console.log(ids)
   return ids
