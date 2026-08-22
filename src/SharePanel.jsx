@@ -8,8 +8,27 @@ import { getSendPostTargetIndex } from './Util.js'
 import { interruptShare, playerAction } from './store.js'
 
 const SLIDE_MS = 150
+const TYPING_INTERVAL_MS = 35
 const SHARE_COUNT = 20
 const ROW_COUNT = 3
+
+function TypingMessage({ message }) {
+  const [visibleLength, setVisibleLength] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setVisibleLength((length) => {
+        const nextLength = length + 1
+        if (nextLength >= message.length) clearInterval(timer)
+        return Math.min(nextLength, message.length)
+      })
+    }, TYPING_INTERVAL_MS)
+
+    return () => clearInterval(timer)
+  }, [message])
+
+  return message.slice(0, visibleLength)
+}
 
 export default function SharePanel({ isOpen }) {
   const dispatch = useDispatch()
@@ -162,7 +181,9 @@ export default function SharePanel({ isOpen }) {
         </div>
         {selectedIndex != null && (
           <div className="share-compose">
-            <div className="share-message-placeholder">{shareMessage}</div>
+            <div className="share-message-placeholder">
+              <TypingMessage key={`${currentIndex}-${selectedIndex}`} message={shareMessage} />
+            </div>
             <button type="button" className="share-send-button" onClick={handleSend}>
               Send
             </button>

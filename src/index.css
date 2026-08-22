@@ -858,9 +858,14 @@ button{
   line-height: 1.25;
 }
 
-.game-over-message {
-  margin: 1dvh 0 0;
+.game-over-amount {
   font-size: 5vw;
+  margin: 1dvh 0 0;
+}
+
+.game-over-message {
+  margin: 2dvh 0 0;
+  font-size: 4.8vw;
   line-height: 1.28;
   
 }

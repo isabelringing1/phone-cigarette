@@ -6,6 +6,17 @@ import { MIN_PAGE_INDEX, speedUpTierForIndex } from './pageMeta.js'
 const clampPageIndex = (index) => Math.max(MIN_PAGE_INDEX, index)
 export const INSTRUCTION_PROGRESS_PERCENT = 3
 const NAVIGATION_SCROLL_INSTRUCTION_IDS = new Set(['scroll_down', 'scroll_up'])
+const TOTAL_SMOKES_STORAGE_KEY = 'phone-cigarette-total-smokes'
+
+function loadTotalSmokes() {
+  if (typeof localStorage === 'undefined') return 0
+  try {
+    const stored = Number.parseInt(localStorage.getItem(TOTAL_SMOKES_STORAGE_KEY) ?? '', 10)
+    return Number.isInteger(stored) && stored >= 0 ? stored : 0
+  } catch {
+    return 0
+  }
+}
 
 const feedSlice = createSlice({
   name: 'feed',
@@ -54,6 +65,7 @@ const gameSlice = createSlice({
     zenMode: false,
     gameStartedAt: null,
     gameDurationMs: null,
+    totalSmokes: loadTotalSmokes(),
     instructionSession: null,
     pageEngagement: {},
     speedUpHeld: false,
@@ -121,10 +133,12 @@ const gameSlice = createSlice({
       s.pageEngagement[pageIndex][field] = !s.pageEngagement[pageIndex][field]
     },
     damageHealth: (s) => {
+      if (s.health <= 0) return
       s.health -= 1
       if (s.health <= 0 && s.gameStartedAt != null && s.gameDurationMs == null) {
         s.gameDurationMs = Date.now() - s.gameStartedAt
       }
+      if (s.health <= 0) s.totalSmokes += 1
     },
     endGame: (s) => {
       if (s.health <= 0) return
@@ -132,6 +146,7 @@ const gameSlice = createSlice({
       if (s.gameStartedAt != null && s.gameDurationMs == null) {
         s.gameDurationMs = Date.now() - s.gameStartedAt
       }
+      s.totalSmokes += 1
     },
     instructionPageActive: (s, { payload: { pageIndex, instructions } }) => {
       s.instructionSession = {
@@ -191,6 +206,7 @@ const gameSlice = createSlice({
         if (s.gameStartedAt != null && s.gameDurationMs == null) {
           s.gameDurationMs = Date.now() - s.gameStartedAt
         }
+        s.totalSmokes += 1
       }
       if (allJudgeableCompleted(session)) {
         session.status = 'completed'
@@ -305,4 +321,16 @@ export const store = configureStore({
       levelListener.middleware,
       smokeListener.middleware,
     ),
+})
+
+let persistedTotalSmokes = store.getState().game.totalSmokes
+store.subscribe(() => {
+  const totalSmokes = store.getState().game.totalSmokes
+  if (totalSmokes === persistedTotalSmokes) return
+  persistedTotalSmokes = totalSmokes
+  try {
+    localStorage.setItem(TOTAL_SMOKES_STORAGE_KEY, String(totalSmokes))
+  } catch {
+    // Keep the in-memory count when storage is unavailable.
+  }
 })

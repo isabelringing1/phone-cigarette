@@ -30,6 +30,7 @@ async function copyToClipboard(text) {
 export default function GameOver() {
   const dispatch = useDispatch()
   const gameDurationMs = useSelector((s) => s.game.gameDurationMs)
+  const totalSmokes = useSelector((s) => s.game.totalSmokes)
   const [shareButtonText, setShareButtonText] = useState('Share')
   const copiedTimerRef = useRef(null)
 
@@ -76,10 +77,16 @@ export default function GameOver() {
     <div className="game-over-overlay" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
       <div className="game-over-popup">
         <h1 id="game-over-title" className="game-over-title">Smoke<span style={{ fontSize: '1.3rem' }}> </span>Break<span style={{ fontSize: '1.3rem' }}> </span>Over</h1>
-        <p className="game-over-duration">Time: {duration}</p>
+       
         <p className="game-over-message">
           The time to resume normal life has arrived. Please return to Phone Cigarette as needed.
         </p>
+
+        <p className="game-over-duration">Time: {duration}</p>
+        <p className="game-over-amount">
+          Total Smokes: {totalSmokes}
+        </p>
+
         <div className="game-over-actions">
           <button type="button" className="game-over-button game-over-back" onClick={onBack}>
             Restart
