@@ -17,7 +17,7 @@
   },
   {
     "id": "think_2",
-    "display_texts": ["Check the time", "Feel inexplicably anxious", "Think about everything you have to do today", "Wonder if your ex has seen this", "Wonder if you should get back to work", "Realize you're getting old"],
+    "display_texts": ["Check the time", "Feel inexplicably anxious", "Think about everything you have to do today", "Wonder if your ex has seen this", "Wonder if you should get back to work", "Realize this is AI", "Feel old"],
     "time_bounds": [2000, 2000],
     "duration_bounds": [2000, 2000],
     "unjudgeable": true,
@@ -93,7 +93,7 @@
   },
   {
     "id": "speed_up",
-    "display_text": "Hold",
+    "display_text": "Speed up",
     "time_bounds": [800, 1000],
     "duration_bounds": [1000, 2000],
     "time_limit": 2000,

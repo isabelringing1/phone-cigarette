@@ -36,6 +36,7 @@ export default function Instruction({
   const commentsScrolling = useSelector((s) => s.game.commentsScrolling)
   const shareOpen = useSelector((s) => s.game.shareOpen)
   const zenMode = useSelector((s) => s.game.zenMode)
+  const speedUpPromptSeen = useSelector((s) => s.game.speedUpPromptSeen)
   const scrollDirection = useSelector((s) => s.feed.scrollDirection)
   const [timerReady, setTimerReady] = useState(false)
   const [runId, setRunId] = useState(0)
@@ -198,7 +199,13 @@ export default function Instruction({
   if (!active || !displayed) return null
   if (usesThinkDisplayTexts(type.id) && !thinkDisplayText) return null
 
-  const displayText = usesThinkDisplayTexts(type.id) ? thinkDisplayText : type.display_text
+  const isFirstSpeedUpPrompt = type.id === 'speed_up'
+    && (instructionState?.isFirstSpeedUpPrompt || (!instructionState?.visible && !speedUpPromptSeen))
+  const displayText = usesThinkDisplayTexts(type.id)
+    ? thinkDisplayText
+    : isFirstSpeedUpPrompt
+      ? 'Press to speed up'
+      : type.display_text
 
   const isSpeedUpHolding = type.id === 'speed_up' && speedUpPressed && !feedback && !isCompleted
   const isSuccess =
@@ -267,7 +274,7 @@ export default function Instruction({
           onPointerUp={onSpeedUpRelease}
           onPointerCancel={onSpeedUpRelease}
           onContextMenu={onSpeedUpContextMenu}
-          aria-label={type.display_text}
+          aria-label={displayText}
         />
 
         <button
@@ -277,7 +284,7 @@ export default function Instruction({
           onPointerUp={onSpeedUpRelease}
           onPointerCancel={onSpeedUpRelease}
           onContextMenu={onSpeedUpContextMenu}
-          aria-label={type.display_text}
+          aria-label={displayText}
         />
         
         <div
@@ -285,7 +292,7 @@ export default function Instruction({
           style={{ left: `${position.vw}vw`, bottom: `${position.dvh}dvh` }}
         >
           <span
-            className={`instruction-text${feedbackClass}${shown ? ' instruction-text--shown' : ''}${showTimer ? ' instruction-text--timer' : ''}${showExitFade ? ' instruction-text--fade-out' : ''}`}
+            className={`instruction-speed_up instruction-text${feedbackClass}${shown ? ' instruction-text--shown' : ''}${showTimer ? ' instruction-text--timer' : ''}${showExitFade ? ' instruction-text--fade-out' : ''}`}
             style={showTimer
               ? { animationDuration: `${timerDurationMs}ms` }
               : showExitFade

@@ -1,47 +1,22 @@
 [
   {
     "phrase": "the {0} {1} for {2}",
-    "level_bounds": [1, 2],
     "phrase_data": [
       ["cutest", "trendiest", "hottest", "coolest"],
-      ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses"],
-      ["spring", "summer", "fall", "winter", "cuffing season", "your next vacation"]
-    ],
-    "hashtags": ["fyp", "love", "cute", "shopping"]
-  },
-  {
-    "phrase": "the {0} {1} for {2}",
-    "level_bounds": [3, -1],
-    "phrase_data": [
-      ["cutest", "trendiest", "hottest", "coolest"],
-      ["geriatric cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "fursuits", "rituals to wake the dead"],
+      ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses", "geriatric cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
       ["spring", "summer", "fall", "winter", "cuffing season", "your next vacation"]
     ],
     "hashtags": ["fyp", "love", "cute", "shopping", "capitalism"]
   },
-
-
   {
     "phrase": "pov: you found the best {0} in {1} that's perfect for {2}",
-    "level_bounds": [1, 2],
     "phrase_data": [
-      ["restaurant", "bar", "cafe", "store", "museum"],
-      ["nyc", "sf", "seattle", "la", "seoul", "london"],
-      ["chilling", "coworking", "napping", "exploring", "killing time"]
+      ["restaurant", "bar", "cafe", "store", "museum", "natural landmark"],
+      ["nyc", "sf", "seattle", "la", "seoul", "london", "hell", "the tri state area", "the world", "this hemisphere"],
+      ["chilling", "coworking", "napping", "exploring", "killing time", "doing your taxes", "crying", "fucking around", "loudly braeking up", "spying on your stepdad"]
     ],
     "hashtags": ["fyp", "travel", "food", "inspo"]
   },
-  {
-    "phrase": "pov: you found the best {0} in {1} that's perfect for {2}",
-    "level_bounds": [3, -1],
-    "phrase_data": [
-      ["cafe", "restaraunt", "museum", "natural landmark"],
-      ["nyc", "hell", "the tri state area", "the world", "this hemisphere"],
-      ["doing your taxes", "crying", "fucking around", "loudly braeking up", "spying on your stepdad"]
-    ],
-    "hashtags": ["fyp", "travel", "food", "inspo"]
-  },
-
   {
     "phrase": "grwm to {0}",
     "level_bounds": [1, 2],
@@ -82,5 +57,13 @@
       ["definitely has committed murder", "low key hates you", "eats grass", "thinks she has ESP"]
     ],
     "hashtags": ["fyp", "skit", "funny", "relationshipgoals", "comedy"]
+  },
+  {
+    "phrase": "day {0} of {1}",
+    "phrase_data": [
+      ["100", "29", "1", "10", "1029", "304"],
+      ["trying to make a million dollars", "learning to break dance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
+    ],
+    "hashtags": ["fyp"]
   }
 ]

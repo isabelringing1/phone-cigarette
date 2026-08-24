@@ -64,8 +64,8 @@ button{
   top: max(2.5dvh, env(safe-area-inset-top, 0px));
   left: max(6.5vw, env(safe-area-inset-left, 0px));
   z-index: 10;
-  width: 7vw;
-  height: 20dvh;
+  width: 7.5vw;
+  height: 25dvh;
   pointer-events: none;
 }
 
@@ -134,12 +134,13 @@ button{
 }
 
 .game-timer-smoke span {
-  --smoke-drift: -4vw;
+  --smoke-drift: -12vw;
+  --smoke-rise: -38.25dvh;
   position: absolute;
   width: 30vw;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ffffffb0, rgba(255, 255, 255, 0.5) 42%, rgba(255, 255, 255, 0.25) 68%, transparent 100%);
+  background: radial-gradient(circle at 50% 50%, #ffffffb0, rgba(255, 255, 255, 0.5) 42%, rgba(255, 255, 255, 0.25) 60%, transparent 100%);
   box-shadow: 0 0 18px 6px rgba(255, 255, 255, 0.24);
   filter: blur(2px);
   opacity: 0;
@@ -147,13 +148,15 @@ button{
 }
 
 .game-timer-smoke span:nth-child(2) {
-  --smoke-drift: 6vw;
+  --smoke-drift: 14vw;
+  --smoke-rise: -45dvh;
   width: 25vw;
   animation-delay: 100ms;
 }
 
 .game-timer-smoke span:nth-child(3) {
-  --smoke-drift: 1vw;
+  --smoke-drift: 3vw;
+  --smoke-rise: -51.75dvh;
   width: 20vw;
   animation-delay: 200ms;
 }
@@ -171,7 +174,7 @@ button{
   }
   100% {
     opacity: 0;
-    transform: translate(calc(-50% + var(--smoke-drift)), -45dvh) scale(1.8);
+    transform: translate(calc(-50% + var(--smoke-drift)), var(--smoke-rise)) scale(1.8);
   }
 }
 
@@ -677,6 +680,11 @@ button{
   inset: 0;
   background: transparent;
   pointer-events: none;
+}
+
+.instruction-speed_up {
+  width: 30vw !important;
+  margin-left: 3vw;
 }
 
 .instruction--speed-up > .instruction {

@@ -175,12 +175,12 @@ export function generateCaption(level = 1) {
 function buildInstructionIdSequence(index, generation) {
   const ids = ['watch']
 
-  if (rollPercent(index, 'scroll-down-early', generation) < 10) {
+  if (rollPercent(index, 'scroll-down-early', generation) < 15) {
     ids.push('scroll_down')
     return ids
   }
 
-  if (rollPercent(index, 'think', generation) < 70) {
+  if (rollPercent(index, 'think', generation) < 60) {
     ids.push('think')
   }
 
@@ -197,7 +197,7 @@ function buildInstructionIdSequence(index, generation) {
     ids.push('scroll_comments', 'close_comments')
   }
 
-  if (rollPercent(index, 'think-2', generation) < 50) {
+  if (rollPercent(index, 'think-2', generation) < 40) {
     ids.push('think_2')
     if (rollPercent(index, 'think-2-speed-up', generation) < 50 && !ids.includes('speed_up')) {
       ids.push('speed_up')

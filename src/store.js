@@ -69,6 +69,7 @@ const gameSlice = createSlice({
     instructionSession: null,
     pageEngagement: {},
     speedUpHeld: false,
+    speedUpPromptSeen: false,
     commentsOpen: false,
     commentsTopBlueText: null,
     commentsScrolling: false,
@@ -167,6 +168,10 @@ const gameSlice = createSlice({
       if (isInstructionBlocked(session, instructionIndex)) return
       const state = session.states[instructionIndex]
       if (state.visible) return
+      if (session.instructions[instructionIndex].type.id === 'speed_up') {
+        state.isFirstSpeedUpPrompt = !s.speedUpPromptSeen
+        s.speedUpPromptSeen = true
+      }
       state.visible = true
       state.visibleRun = (state.visibleRun ?? 0) + 1
     },
@@ -225,6 +230,7 @@ const gameSlice = createSlice({
       s.instructionSession = null
       s.pageEngagement = {}
       s.speedUpHeld = false
+      s.speedUpPromptSeen = false
       s.commentsOpen = false
       s.commentsTopBlueText = null
       s.commentsScrolling = false
