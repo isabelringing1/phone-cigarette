@@ -8,7 +8,18 @@ import GameOver from './GameOver.jsx'
 import TitlePage from './TitlePage.jsx'
 import CommentsPanel from './CommentsPanel.jsx'
 import SharePanel from './SharePanel.jsx'
-import { setIndex, setScrollDirection, playerAction, closeComments, closeShare, startGame, store } from './store.js'
+import SearchPage from './SearchPage.jsx'
+import {
+  setIndex,
+  setScrollDirection,
+  playerAction,
+  closeComments,
+  closeSearch,
+  closeShare,
+  openSearch,
+  startGame,
+  store,
+} from './store.js'
 import { isSpeedUpHolding } from './instructionJudge.js'
 import { MIN_PAGE_INDEX } from './pageMeta.js'
 
@@ -25,6 +36,7 @@ export default function App() {
   const zenMode = useSelector((s) => s.game.zenMode)
   const commentsOpen = useSelector((s) => s.game.commentsOpen)
   const commentsTopBlueText = useSelector((s) => s.game.commentsTopBlueText)
+  const searchOpen = useSelector((s) => s.game.searchOpen)
   const shareOpen = useSelector((s) => s.game.shareOpen)
   const dispatch = useDispatch()
   const containerRef = useRef(null)
@@ -67,8 +79,8 @@ export default function App() {
   }
 
   function dispatchScrollAction(direction, scrollTop, h) {
-    const { instructionSession: session, commentsOpen, shareOpen, health } = store.getState().game
-    if (health <= 0 || commentsOpen || shareOpen) return
+    const { instructionSession: session, commentsOpen, searchOpen, shareOpen, health } = store.getState().game
+    if (health <= 0 || commentsOpen || searchOpen || shareOpen) return
     if (isSpeedUpHolding(session?.pageIndex)) return
 
     const slot = Math.round(scrollTop / h)
@@ -115,7 +127,7 @@ export default function App() {
     const sync = () => {
       if (ignoreScrollRef.current || !titleDismissed) return
       const game = store.getState().game
-      if (game.health <= 0 || game.commentsOpen || game.shareOpen) return
+      if (game.health <= 0 || game.commentsOpen || game.searchOpen || game.shareOpen) return
       const h = el.clientHeight
       const slot = Math.round(el.scrollTop / h)
       const rawIndex = currentIndex + (slot - PAGES_BEFORE)
@@ -125,8 +137,8 @@ export default function App() {
         ignoreScrollRef.current = true
         el.scrollTop = PAGES_BEFORE * h
         lastScrollTopRef.current = el.scrollTop
-        const { instructionSession: session, commentsOpen, shareOpen } = store.getState().game
-        if (!commentsOpen && !shareOpen && !isSpeedUpHolding(session?.pageIndex)) {
+        const { instructionSession: session, commentsOpen, searchOpen, shareOpen } = store.getState().game
+        if (!commentsOpen && !searchOpen && !shareOpen && !isSpeedUpHolding(session?.pageIndex)) {
           dispatch(playerAction({ type: 'scroll', direction: 'up' }))
         }
         requestAnimationFrame(() => { ignoreScrollRef.current = false })
@@ -159,7 +171,7 @@ export default function App() {
     const onScroll = () => {
       if (ignoreScrollRef.current) return
       const game = store.getState().game
-      if (game.health <= 0 || game.commentsOpen || game.shareOpen) return
+      if (game.health <= 0 || game.commentsOpen || game.searchOpen || game.shareOpen) return
 
       if (!gameStarted) {
         if (el.scrollTop !== 0) el.scrollTop = 0
@@ -203,6 +215,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(closeComments())
+    dispatch(closeSearch())
     dispatch(closeShare())
   }, [currentIndex, dispatch])
 
@@ -216,8 +229,12 @@ export default function App() {
         <CommentsPanel
           isOpen={commentsOpen}
           onClose={() => dispatch(closeComments())}
+          onSearch={() => dispatch(openSearch())}
           topBlueText={commentsTopBlueText}
         />
+      )}
+      {titleDismissed && searchOpen && (
+        <SearchPage query={commentsTopBlueText} />
       )}
       {titleDismissed && (
         <SharePanel isOpen={shareOpen} />

@@ -10,7 +10,7 @@ const SLIDE_MS = 150
 const COMMENT_COUNT = 60
 const COMMENTS_SCROLL_END_MS = 80
 
-export default function CommentsPanel({ isOpen, onClose, topBlueText = null }) {
+export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText = null }) {
   const dispatch = useDispatch()
   const currentIndex = useSelector((s) => s.feed.currentIndex)
   const session = useSelector((s) => s.game.instructionSession)
@@ -24,6 +24,15 @@ export default function CommentsPanel({ isOpen, onClose, topBlueText = null }) {
     [],
   )
   const showSearch = Boolean(topBlueText)
+  const searchInstructionIndex = session?.instructions.findIndex(
+    (instruction) => instruction.type.id === 'search',
+  ) ?? -1
+  const searchInstructionState = searchInstructionIndex >= 0
+    ? session?.states[searchInstructionIndex]
+    : null
+  const searchActive = searchInstructionState?.status === 'pending'
+    && searchInstructionState.visible
+    && !searchInstructionState.feedback
 
   useEffect(() => {
     if (isOpen) {
@@ -92,6 +101,12 @@ export default function CommentsPanel({ isOpen, onClose, topBlueText = null }) {
     onClose()
   }
 
+  const handleSearch = () => {
+    if (!searchActive) return
+    dispatch(playerAction({ type: 'search' }))
+    onSearch()
+  }
+
   if (!mounted) return null
 
   return (
@@ -108,7 +123,14 @@ export default function CommentsPanel({ isOpen, onClose, topBlueText = null }) {
           {showSearch && (
             <div className="comments-search">
               <span className="comments-search-label">Search: </span>
-              <span className="comments-search-query">{topBlueText}</span>
+              <button
+                type="button"
+                className="comments-search-query"
+                onClick={handleSearch}
+                disabled={!searchActive}
+              >
+                {topBlueText}
+              </button>
               <Search size={12} className="comments-search-icon" aria-hidden="true" />
             </div>
           )}

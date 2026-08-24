@@ -31,6 +31,9 @@ export default function PageMenu({
 
   const chromeHidden = active && speedUpHeld
   const sessionMatchesPage = active && session?.pageIndex === index
+  const searchText = sessionMatchesPage
+    ? session.instructions.find((instruction) => instruction.type.id === 'search')?.searchText
+    : null
   const iconHighlightContext = { commentsOpen, shareOpen }
 
   const highlightLike = sessionMatchesPage
@@ -54,7 +57,7 @@ export default function PageMenu({
       dispatch(togglePageEngagement({ pageIndex: index, name }))
     }
     if (name === 'comment') {
-      dispatch(openComments())//{ topBlueText: 'what is special 4th of july cheese' }
+      dispatch(openComments({ topBlueText: searchText }))
     }
     if (name === 'share') {
       dispatch(openShare())

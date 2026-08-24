@@ -24,6 +24,12 @@ export const instructionMatchers = {
   scroll_comments: (action) =>
     action.type === 'scroll_comments' && action.phase === 'end',
 
+  search: (action) =>
+    action.type === 'search',
+
+  search_back: (action) =>
+    action.type === 'search_back',
+
   save: (action) =>
     action.type === 'button' && action.name === 'save',
 

@@ -1,10 +1,12 @@
 import instructionTypes from './Instructions.json'
 import captions from './captions.json'
+import searchPhrases from './search.json'
+import { FIRST_NAMES, NOUNS, SURNAMES } from './usernameData.js'
 import { MIN_PAGE_INDEX, rollInstructionDuration, rollInstructionTimeMs, rollInt, rollPercent, timeScalarForIndex } from './pageMeta.js'
 
 export const INSTRUCTION_FADE_MS = 400
 
-export const DEBUG_INSTRUCTIONS = []//['watch', 'comments', 'scroll_comments', 'close_comments', "scroll_down"]
+export const DEBUG_INSTRUCTIONS = []// ['watch', 'comments', 'search', 'search_back', "close_comments", "scroll_down"]
 
 export function isMobileDevice() {
   return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
@@ -172,6 +174,28 @@ export function generateCaption(level = 1) {
   return { phrase, hashtags }
 }
 
+export function generateSearchText(index, generation = 0) {
+  const templateIndex = rollInt(index, 'search-template', generation, searchPhrases.length - 1)
+  const template = searchPhrases[templateIndex]
+  let placeholderIndex = 0
+
+  return template.replace(/\{(noun|first|last)\}/g, (_, placeholder) => {
+    const options = placeholder === 'noun'
+      ? NOUNS
+      : placeholder === 'first'
+        ? FIRST_NAMES
+        : SURNAMES
+    const optionIndex = rollInt(
+      index,
+      `search-${placeholder}-${placeholderIndex}`,
+      generation,
+      options.length - 1,
+    )
+    placeholderIndex += 1
+    return options[optionIndex]
+  })
+}
+
 function buildInstructionIdSequence(index, generation) {
   const ids = ['watch']
 
@@ -194,7 +218,14 @@ function buildInstructionIdSequence(index, generation) {
   }
 
   if (ids.includes('comments')) {
-    ids.push('scroll_comments', 'close_comments')
+    if (rollPercent(index, 'scroll-after-comments', generation) < 80) {
+      ids.push('scroll_comments')
+    }
+    if (rollPercent(index, 'search-after-comments', generation) < 33) {
+      ids.push('search', 'search_back')
+    }
+    
+    ids.push('close_comments')
   }
 
   if (rollPercent(index, 'think-2', generation) < 40) {
@@ -251,6 +282,9 @@ export function generateInstructions(index, generation = 0, zenMode = false, rev
     }
     if (id === 'watch' && index === MIN_PAGE_INDEX && !zenMode) {
       instruction.type = { ...instruction.type, display_text: 'Follow Instructions!' }
+    }
+    if (id === 'search') {
+      instruction.searchText = generateSearchText(index, generation)
     }
     return instruction
   }

@@ -67,6 +67,24 @@
     "position": { "vw": 50, "dvh": 40 }
   },
   {
+    "id": "search",
+    "display_text": "Search",
+    "time_bounds": [1000, 1000],
+    "time_limit": 2000,
+    "blocking": true,
+    "comments_overlay": true,
+    "position": { "vw": 50, "dvh": 69.5 }
+  },
+  {
+    "id": "search_back",
+    "display_text": "Go Back",
+    "time_bounds": [0, 0],
+    "time_limit": 2000,
+    "blocking": true,
+    "search_overlay": true,
+    "position": { "vw": 12, "dvh": 91.5, "anchor": "center left" }
+  },
+  {
     "id": "share",
     "display_text": "Share",
     "time_bounds": [3000, 3000],

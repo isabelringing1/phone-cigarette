@@ -73,6 +73,7 @@ const gameSlice = createSlice({
     commentsOpen: false,
     commentsTopBlueText: null,
     commentsScrolling: false,
+    searchOpen: false,
     shareOpen: false,
     shareNeedsReopen: false,
   },
@@ -91,6 +92,12 @@ const gameSlice = createSlice({
     closeComments: (s) => {
       s.commentsOpen = false
       s.commentsScrolling = false
+    },
+    openSearch: (s) => {
+      s.searchOpen = true
+    },
+    closeSearch: (s) => {
+      s.searchOpen = false
     },
     openShare: (s) => {
       s.commentsOpen = false
@@ -234,6 +241,7 @@ const gameSlice = createSlice({
       s.commentsOpen = false
       s.commentsTopBlueText = null
       s.commentsScrolling = false
+      s.searchOpen = false
       s.shareOpen = false
       s.shareNeedsReopen = false
     },
@@ -255,6 +263,8 @@ export const {
   setCommentsScrolling,
   openComments,
   closeComments,
+  openSearch,
+  closeSearch,
   openShare,
   closeShare,
   interruptShare,
