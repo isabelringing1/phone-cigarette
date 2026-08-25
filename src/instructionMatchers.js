@@ -1,3 +1,10 @@
+const searchVideoMatchers = Object.fromEntries(
+  Array.from({ length: 4 }, (_, index) => [
+    `search_into_video_${index}`,
+    (action) => action.type === 'search_into_video' && action.index === index,
+  ]),
+)
+
 export const instructionMatchers = {
   scroll_down: (action, instruction) =>
     action.type === 'scroll' &&
@@ -29,6 +36,11 @@ export const instructionMatchers = {
 
   search_back: (action) =>
     action.type === 'search_back',
+
+  ...searchVideoMatchers,
+
+  search_into_video_close: (action) =>
+    action.type === 'search_into_video_close',
 
   save: (action) =>
     action.type === 'button' && action.name === 'save',

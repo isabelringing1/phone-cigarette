@@ -196,6 +196,7 @@ export default function Instruction({
     return () => cancelAnimationFrame(frame)
   }, [visible, runId, exiting])
 
+  if (type.id === 'search_into_video_close' && isCompleted) return null
   if (!active || !displayed) return null
   if (usesThinkDisplayTexts(type.id) && !thinkDisplayText) return null
 
@@ -204,7 +205,7 @@ export default function Instruction({
   const displayText = usesThinkDisplayTexts(type.id)
     ? thinkDisplayText
     : isFirstSpeedUpPrompt
-      ? 'Press to speed up'
+      ? 'Hold to speed up'
       : type.display_text
 
   const isSpeedUpHolding = type.id === 'speed_up' && speedUpPressed && !feedback && !isCompleted

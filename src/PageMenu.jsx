@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Bookmark, Heart, MessageCircle } from 'lucide-react'
 import share from '/share.png'
 import { generateCaption, isIconInstructionHighlighted } from './Util.js'
-import { generatePageUsername } from './usernameGenerator.js'
+import { generateUsername } from './usernameGenerator.js'
 import { playerAction, togglePageEngagement, openComments, openShare } from './store.js'
 
 export default function PageMenu({
   index,
   active,
+  readOnly = false,
   likePulsing,
   onLikeActivated,
   onLikePulseEnd,
@@ -24,8 +25,8 @@ export default function PageMenu({
   const feedGeneration = useSelector((s) => s.feed.feedGeneration)
   const level = useSelector((s) => s.game.level)
   const name = useMemo(
-    () => generatePageUsername(index, feedGeneration),
-    [index, feedGeneration],
+    () => generateUsername(),
+    [],
   )
   const caption = useMemo(() => generateCaption(level), [index, feedGeneration, level])
 
@@ -46,7 +47,7 @@ export default function PageMenu({
     && (shareNeedsReopen || isIconInstructionHighlighted(session, 'share', iconHighlightContext))
 
   const onButton = (name) => {
-    if (!active) return false
+    if (!active || readOnly) return false
     if (name === 'like' && !highlightLike) return false
     if (name === 'save' && !highlightSave) return false
     if (name === 'comment' && !highlightComments) return false
@@ -119,7 +120,7 @@ export default function PageMenu({
       {sessionMatchesPage && shareNeedsReopen && (
         <div
           className="instruction instruction--anchor-right share-reopen-prompt"
-          style={{ left: '80vw', bottom: '10dvh' }}
+          style={{ left: '80vw', bottom: '15dvh' }}
           aria-hidden="true"
         >
           <span className="instruction-text instruction-text--shown">Open</span>

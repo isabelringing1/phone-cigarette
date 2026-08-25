@@ -125,7 +125,7 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
               <span className="comments-search-label">Search: </span>
               <button
                 type="button"
-                className="comments-search-query"
+                className={"comments-search-query " + (searchActive ? "comments-search-query-active" : "")}
                 onClick={handleSearch}
                 disabled={!searchActive}
               >

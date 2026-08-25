@@ -64,8 +64,8 @@ button{
   top: max(2.5dvh, env(safe-area-inset-top, 0px));
   left: max(6.5vw, env(safe-area-inset-left, 0px));
   z-index: 10;
-  width: 7.5vw;
-  height: 25dvh;
+  width: 7.3vw;
+  height: 28dvh;
   pointer-events: none;
 }
 
@@ -140,7 +140,14 @@ button{
   width: 30vw;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ffffffb0, rgba(255, 255, 255, 0.5) 42%, rgba(255, 255, 255, 0.25) 60%, transparent 100%);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.68) 0%,
+    rgba(255, 255, 255, 0.51) 25%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.17) 75%,
+    transparent 100%
+  );
   box-shadow: 0 0 18px 6px rgba(255, 255, 255, 0.24);
   filter: blur(2px);
   opacity: 0;
@@ -515,6 +522,7 @@ button{
   max-width: calc(100% - 96px);
   pointer-events: none;
   opacity: 1;
+  color: white;
   transition: opacity 0.2s ease;
 }
 
@@ -545,7 +553,7 @@ button{
 .page-actions {
   position: absolute;
   right: 1dvh;
-  bottom: calc(var(--page-bottom) + 12dvh);
+  bottom: calc(var(--page-bottom) + 17dvh);
   display: flex;
   flex-direction: column;
   gap: 4dvh;
@@ -684,7 +692,6 @@ button{
 
 .instruction-speed_up {
   width: 30vw !important;
-  margin-left: 3vw;
 }
 
 .instruction--speed-up > .instruction {
@@ -999,6 +1006,10 @@ button{
   text-align: left;
 }
 
+.comments-search-query-active {
+  background: radial-gradient(circle at center, rgba(255, 236, 120, 1) 0%, rgba(255, 236, 120, 0.9) 95.3%, transparent 105%), #ffffff00;
+}
+
 .comments-search-query:disabled {
   color: #2b5cff;
   cursor: default;
@@ -1156,7 +1167,7 @@ button{
 .search-page-instructions {
   position: fixed;
   inset: 0;
-  z-index: 3;
+  z-index: 50;
   pointer-events: none;
   font-size: 8vw;
 }
@@ -1167,6 +1178,15 @@ button{
 }
 
 .instruction-search_back .instruction-text {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.instruction-search_into_video_close {
+  color: #fff;
+}
+
+.instruction-search_into_video_close .instruction-text {
   text-align: left;
   white-space: nowrap;
 }
@@ -1272,17 +1292,43 @@ button{
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 4px;
   padding: 4px;
-  background: #fff;
+  background: #ededed;
 }
 
 .search-page-result {
+  position: relative;
   min-width: 0;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  color: inherit;
+  text-align: inherit;
+  border-radius: 1vw;
+  font: inherit;
+  z-index: 0;
+}
+
+.search-page-result--active {
+  z-index: 1;
+
+  box-shadow: 0 0 24px 8px rgba(255, 226, 64, 0.72);
 }
 
 .search-page-video {
   width: 100%;
   aspect-ratio: 0.68;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #000;
+  border-radius: 1vw;
+}
+
+.search-page-watch {
+  color: #fff;
+  font-family: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: clamp(24px, 8vw, 44px);
+  font-weight: 500;
 }
 
 .search-page-result-copy {
@@ -1302,6 +1348,53 @@ button{
 
 .search-page-result-line--short {
   width: 46%;
+}
+
+.search-video-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #000;
+  border-radius: 0;
+  touch-action: pan-x;
+  will-change: top, left, width, height, transform;
+  transition:
+    top 300ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    left 300ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    width 300ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    height 300ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    border-radius 300ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    transform 300ms ease-out;
+}
+
+.search-video-page--entering {
+  border-radius: 1vw;
+}
+
+.search-video-page--closing {
+  transform: translateX(100vw);
+}
+
+.search-video-page > .page {
+  height: 100%;
+}
+
+.search-video-back {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top, 0px));
+  left: 8px;
+  z-index: 2;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-video-page {
+    transition-duration: 1ms;
+  }
 }
 
 .share-overlay {

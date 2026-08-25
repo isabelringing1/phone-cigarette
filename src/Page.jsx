@@ -15,7 +15,7 @@ function distanceBetween(first, second) {
   return Math.hypot(first.x - second.x, first.y - second.y)
 }
 
-export default function Page({ index, active }) {
+export default function Page({ index, active, presentationOnly = false }) {
   const dispatch = useDispatch()
   const feedGeneration = useSelector((s) => s.feed.feedGeneration)
   const zenMode = useSelector((s) => s.game.zenMode)
@@ -26,8 +26,8 @@ export default function Page({ index, active }) {
   const lastDoubleTapRef = useRef(0)
   const [likePulsing, setLikePulsing] = useState(false)
   const instructions = useMemo(
-    () => generateInstructions(index, feedGeneration, zenMode),
-    [index, feedGeneration, zenMode],
+    () => presentationOnly ? [] : generateInstructions(index, feedGeneration, zenMode),
+    [index, feedGeneration, zenMode, presentationOnly],
   )
   const duration = useMemo(
     () => durationForIndex(index, feedGeneration),
@@ -35,9 +35,9 @@ export default function Page({ index, active }) {
   )
 
   useLayoutEffect(() => {
-    if (!active) return
+    if (!active || presentationOnly) return
     dispatch(instructionPageActive({ pageIndex: index, instructions }))
-  }, [active, index, instructions, dispatch])
+  }, [active, index, instructions, presentationOnly, dispatch])
 
   const likeIsPrompted = active
     && session?.pageIndex === index
@@ -106,16 +106,21 @@ export default function Page({ index, active }) {
       <PageMenu
         index={index}
         active={active}
+        readOnly={presentationOnly}
         likePulsing={likePulsing}
         onLikeActivated={() => setLikePulsing(true)}
         onLikePulseEnd={() => setLikePulsing(false)}
       />
-      <Instructions
-        instructions={instructions}
-        active={active}
-        pageIndex={index}
-      />
-      <PageDuration active={active} duration={duration} />
+      {!presentationOnly && (
+        <>
+          <Instructions
+            instructions={instructions}
+            active={active}
+            pageIndex={index}
+          />
+          <PageDuration active={active} duration={duration} />
+        </>
+      )}
     </div>
   )
 }

@@ -157,6 +157,7 @@ const gameSlice = createSlice({
       s.totalSmokes += 1
     },
     instructionPageActive: (s, { payload: { pageIndex, instructions } }) => {
+      s.commentsTopBlueText = null
       s.instructionSession = {
         pageIndex,
         instructions,

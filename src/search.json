@@ -2,5 +2,11 @@
   "what is {noun}",
   "who is {first}'s favorite {noun}",
   "who is {first} {last}",
-  "{noun} {noun} explanation"
+  "{noun} {noun} explanation",
+  "{username} controversy",
+  "what happend to {username}",
+  "{first} x {first}",
+  "{first} and {first} feud",
+  "why did {first} leave",
+  "what is {noun}ing?"
 ]

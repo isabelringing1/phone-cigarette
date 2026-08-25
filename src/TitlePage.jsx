@@ -140,7 +140,7 @@ export default function TitlePage() {
     return (
       <div className="title-page title-page--desktop">
         <p className="title-page-desktop-message">
-          Phone Cigarette works on mobile phones only!
+          Switch to your phone to smoke!
         </p>
       </div>
     )

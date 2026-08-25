@@ -2,11 +2,12 @@ import instructionTypes from './Instructions.json'
 import captions from './captions.json'
 import searchPhrases from './search.json'
 import { FIRST_NAMES, NOUNS, SURNAMES } from './usernameData.js'
+import { generateUsername } from './usernameGenerator.js'
 import { MIN_PAGE_INDEX, rollInstructionDuration, rollInstructionTimeMs, rollInt, rollPercent, timeScalarForIndex } from './pageMeta.js'
 
 export const INSTRUCTION_FADE_MS = 400
 
-export const DEBUG_INSTRUCTIONS = []// ['watch', 'comments', 'search', 'search_back', "close_comments", "scroll_down"]
+export const DEBUG_INSTRUCTIONS = []// ['watch', 'comments', 'search', 'search_into_video_0', 'search_into_video_close', 'search_into_video_1', 'search_into_video_close', 'search_back', 'close_comments', 'scroll_down']
 
 export function isMobileDevice() {
   return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
@@ -174,26 +175,36 @@ export function generateCaption(level = 1) {
   return { phrase, hashtags }
 }
 
-export function generateSearchText(index, generation = 0) {
-  const templateIndex = rollInt(index, 'search-template', generation, searchPhrases.length - 1)
-  const template = searchPhrases[templateIndex]
-  let placeholderIndex = 0
+export function generateSearchText() {
+  const template = pickRandom(searchPhrases)
 
-  return template.replace(/\{(noun|first|last)\}/g, (_, placeholder) => {
+  return template.replace(/\{(noun|first|last|username)\}/g, (_, placeholder) => {
+    if (placeholder === 'username') {
+      return generateUsername()
+    }
     const options = placeholder === 'noun'
       ? NOUNS
       : placeholder === 'first'
         ? FIRST_NAMES
         : SURNAMES
-    const optionIndex = rollInt(
-      index,
-      `search-${placeholder}-${placeholderIndex}`,
-      generation,
-      options.length - 1,
-    )
-    placeholderIndex += 1
-    return options[optionIndex]
+    return pickRandom(options)
   })
+}
+
+function appendSearchInstructionIds(ids, index, generation) {
+  ids.push('search')
+
+  if (rollPercent(index, 'search-into-video', generation) < 90) {
+    const firstTarget = rollInt(index, 'search-video-target-1', generation, 1)
+    ids.push(`search_into_video_${firstTarget}`, 'search_into_video_close')
+
+    if (rollPercent(index, 'search-into-second-video', generation) < 30) {
+      const secondTarget = firstTarget === 0 ? 1 : 0
+      ids.push(`search_into_video_${secondTarget}`, 'search_into_video_close')
+    }
+  }
+
+  ids.push('search_back')
 }
 
 function buildInstructionIdSequence(index, generation) {
@@ -222,7 +233,7 @@ function buildInstructionIdSequence(index, generation) {
       ids.push('scroll_comments')
     }
     if (rollPercent(index, 'search-after-comments', generation) < 33) {
-      ids.push('search', 'search_back')
+      appendSearchInstructionIds(ids, index, generation)
     }
     
     ids.push('close_comments')
@@ -284,7 +295,7 @@ export function generateInstructions(index, generation = 0, zenMode = false, rev
       instruction.type = { ...instruction.type, display_text: 'Follow Instructions!' }
     }
     if (id === 'search') {
-      instruction.searchText = generateSearchText(index, generation)
+      instruction.searchText = generateSearchText()
     }
     return instruction
   }

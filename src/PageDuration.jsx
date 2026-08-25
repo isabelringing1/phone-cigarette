@@ -25,7 +25,7 @@ export default function PageDuration({ active, duration }) {
     const tick = (now) => {
       const dt = (now - lastTimeRef.current) / 1000
       lastTimeRef.current = now
-      const rate = speedUpHeldRef.current ? 2 : 1
+      const rate = speedUpHeldRef.current ? 2.5 : 1
       progressRef.current += (dt * rate) / duration
       if (progressRef.current >= 1) {
         progressRef.current %= 1
