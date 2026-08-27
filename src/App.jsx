@@ -60,6 +60,16 @@ export default function App() {
     )
   }
 
+  function isScrollDownActive(session) {
+    return session?.instructions?.some(
+      (instruction, i) =>
+        instruction.type.id === 'scroll_down'
+        && (instruction.type.params?.direction ?? 'down') === 'down'
+        && session.states[i]?.status === 'pending'
+        && session.states[i].visible,
+    )
+  }
+
   function isFinalScrollVisible(session) {
     if (!session?.instructions?.length) return false
     const finalIndex = session.instructions.length - 1
@@ -189,6 +199,15 @@ export default function App() {
       }
 
       const scrollTop = el.scrollTop
+      if (
+        isScrollDownActive(game.instructionSession)
+        && lastScrollTopRef.current !== null
+        && scrollTop < lastScrollTopRef.current
+      ) {
+        el.scrollTop = lastScrollTopRef.current
+        return
+      }
+
       if (lastScrollTopRef.current !== null && scrollTop !== lastScrollTopRef.current) {
         const direction = scrollTop > lastScrollTopRef.current ? 'down' : 'up'
         dispatch(setScrollDirection(direction))
