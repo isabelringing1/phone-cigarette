@@ -7,7 +7,7 @@ import { MIN_PAGE_INDEX, rollInstructionDuration, rollInstructionTimeMs, rollInt
 
 export const INSTRUCTION_FADE_MS = 400
 
-export const DEBUG_INSTRUCTIONS = []// ['watch', 'comments', 'search', 'search_into_video_0', 'search_into_video_close', 'search_into_video_1', 'search_into_video_close', 'search_back', 'close_comments', 'scroll_down']
+export const DEBUG_INSTRUCTIONS = []//['watch', 'open_comments', 'comment', 'close_comments', 'scroll_down']
 
 export function isMobileDevice() {
   return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
@@ -16,6 +16,8 @@ export function isMobileDevice() {
 
 const instructionTypeById = Object.fromEntries(instructionTypes.map((type) => [type.id, type]))
 const instructionTextBags = new Map()
+const captionTemplateBags = new Map()
+let lastCaptionTemplate = null
 
 function shuffle(items) {
   const shuffled = [...items]
@@ -90,7 +92,7 @@ export function isScrollCommentsInstructionDone(session) {
   return state?.status === 'completed' || state?.feedback === 'success'
 }
 
-const ICON_INSTRUCTION_IDS = new Set(['like', 'comments', 'share', 'save'])
+const ICON_INSTRUCTION_IDS = new Set(['like', 'open_comments', 'share', 'save'])
 
 export function isIconInstructionHighlighted(session, instructionId, { commentsOpen, shareOpen } = {}) {
   if (!session || !ICON_INSTRUCTION_IDS.has(instructionId)) return false
@@ -100,7 +102,7 @@ export function isIconInstructionHighlighted(session, instructionId, { commentsO
 
   const state = session.states[index]
   if (state.status !== 'pending' || !state.visible) return false
-  if (instructionId === 'comments' && commentsOpen) return false
+  if (instructionId === 'open_comments' && commentsOpen) return false
   if (instructionId === 'share' && shareOpen) return false
 
   return true
@@ -153,12 +155,38 @@ function captionMatchesLevel(bounds, level) {
   return level <= max
 }
 
+function drawCaptionTemplate(pool) {
+  const sourceKey = pool
+    .map((template) => captions.indexOf(template))
+    .join(',')
+  let remaining = captionTemplateBags.get(sourceKey)
+
+  if (!remaining?.length) {
+    remaining = shuffle(pool)
+  }
+
+  // Avoid repeats both between shuffled bags and when the level changes.
+  const nextIndex = remaining.length - 1
+  if (remaining.length > 1 && remaining[nextIndex] === lastCaptionTemplate) {
+    const swapIndex = remaining.findIndex((template) => template !== lastCaptionTemplate)
+    ;[remaining[nextIndex], remaining[swapIndex]] = [
+      remaining[swapIndex],
+      remaining[nextIndex],
+    ]
+  }
+
+  const template = remaining.pop()
+  captionTemplateBags.set(sourceKey, remaining)
+  lastCaptionTemplate = template
+  return template
+}
+
 export function generateCaption(level = 1) {
   const pool = [
     ...captions.filter((caption) => !caption.level_bounds),
     ...captions.filter((caption) => caption.level_bounds && captionMatchesLevel(caption.level_bounds, level)),
   ]
-  const entry = pickRandom(pool.length > 0 ? pool : captions)
+  const entry = drawCaptionTemplate(pool.length > 0 ? pool : captions)
 
   const phrase = entry.phrase.replace(/\{(\d+)\}/g, (match, indexStr) => {
     const options = entry.phrase_data[Number(indexStr)]
@@ -172,7 +200,9 @@ export function generateCaption(level = 1) {
     hashtags.unshift('fyp')
   }
 
-  return { phrase, hashtags }
+  const comment = entry.comments?.length ? pickRandom(entry.comments) : ''
+
+  return { phrase, hashtags, comment }
 }
 
 export function generateSearchText() {
@@ -222,13 +252,16 @@ function buildInstructionIdSequence(index, generation) {
   if (rollPercent(index, 'speed-up-or-comments', generation) < 75) {
     ids.push('speed_up')
     if (rollPercent(index, 'comments-after-speed-up', generation) < 30) {
-      ids.push('comments')
+      ids.push('open_comments')
     }
   } else {
-    ids.push('comments')
+    ids.push('open_comments')
   }
 
-  if (ids.includes('comments')) {
+  if (ids.includes('open_comments')) {
+    if (rollPercent(index, 'comment-after-comments-open', generation) < 100 / 3) {
+      ids.push('comment')
+    }
     if (rollPercent(index, 'scroll-after-comments', generation) < 80) {
       ids.push('scroll_comments')
     }

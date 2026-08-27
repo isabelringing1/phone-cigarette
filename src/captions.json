@@ -6,7 +6,8 @@
       ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses", "geriatric cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
       ["spring", "summer", "fall", "winter", "cuffing season", "your next vacation"]
     ],
-    "hashtags": ["fyp", "love", "cute", "shopping", "capitalism"]
+    "hashtags": ["fyp", "love", "cute", "shopping", "capitalism"],
+    "comments": ["love this", "need more money for this", "who has this kind of money??", "maybe when i'm a millionaire"]
   },
   {
     "phrase": "pov: you found the best {0} in {1} that's perfect for {2}",
@@ -15,7 +16,8 @@
       ["nyc", "sf", "seattle", "la", "seoul", "london", "hell", "the tri state area", "the world", "this hemisphere"],
       ["chilling", "coworking", "napping", "exploring", "killing time", "doing your taxes", "crying", "fucking around", "loudly braeking up", "spying on your stepdad"]
     ],
-    "hashtags": ["fyp", "travel", "food", "inspo"]
+    "hashtags": ["fyp", "travel", "food", "inspo"],
+    "comments": ["doing this next time", "saving for my next trip"]
   },
   {
     "phrase": "grwm to {0}",
@@ -23,7 +25,8 @@
     "phrase_data": [
       ["go to the pool", "get laid off", "break up with my cheating bf", "go on a first date post divorce"]
     ],
-    "hashtags": ["fyp", "grwm", "summer", "beauty", "yap"]
+    "hashtags": ["fyp", "grwm", "summer", "beauty", "yap"],
+    "comments": ["wait i'm seated", "teaaaa", "i can't tell if this is real or not"]
   },
 
   {
@@ -33,7 +36,8 @@
       ["most heartwarming", "most adorable", "cutest", "saddest"],
       ["❤️", "💔", "💖✨", "💕"]
     ],
-    "hashtags": ["fyp", "cute", "sad", "viral", "dogs", "cats", "babies"]
+    "hashtags": ["fyp", "cute", "sad", "viral", "dogs", "cats", "babies"],
+    "comments": ["awwww", "my heart", "am i missing something?", "is this ai?"]
   },
   {
     "phrase": "what i packed for my {0} hour shift {1}",
@@ -41,7 +45,8 @@
       ["48", "24", "72"],
       ["at the ER", "at my tech slop job", "at FurCon 2026", "at the bubble gun warehouse"]
     ],
-    "hashtags": ["fyp", "work", "lunch", "foodie", "sourdough", "sandwich", "mexicanfood"]
+    "hashtags": ["fyp", "work", "lunch", "foodie", "sourdough", "sandwich", "mexicanfood"],
+    "comments": ["is this satire?", "um no thanks", "this is insane...", "goals"]
   },
   {
     "phrase": "asmr {0} {1}",
@@ -49,21 +54,24 @@
       ["food", "slime", "mukbang", "cat spa", "dog spa", "fridge restock"],
       ["uncensored", "crunchy", "💥", "forbidden..."]
     ],
-    "hashtags": ["fyp", "asmr", "sleep", "asmrtok", "yum"]
+    "hashtags": ["fyp", "asmr", "sleep", "asmrtok", "yum"],
+    "comments": ["love this", "wait i'm seated", "crunchy", "yass"]
   },
   {
     "phrase": "that one friend who {0}",
     "phrase_data": [
       ["definitely has committed murder", "low key hates you", "eats grass", "thinks she has ESP"]
     ],
-    "hashtags": ["fyp", "skit", "funny", "relationshipgoals", "comedy"]
+    "hashtags": ["fyp", "skit", "funny", "relationshipgoals", "comedy"],
+    "comments": ["oddly specific but ok", "when it's not even satire anymore 😭"]
   },
   {
     "phrase": "day {0} of {1}",
     "phrase_data": [
       ["100", "29", "1", "10", "1029", "304"],
-      ["trying to make a million dollars", "learning to break dance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
+      ["trying to make a million dollars", "learning to breakdance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
     ],
-    "hashtags": ["fyp"]
+    "hashtags": ["fyp"],
+    "comments": ["don't give up!", "you've inspired me"]
   }
 ]

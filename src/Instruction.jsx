@@ -57,7 +57,7 @@ export default function Instruction({
   const isCompleted = instructionState?.status === 'completed'
   const blocked = sessionMatchesPage && isInstructionBlocked(session, instructionIndex)
   const overlayGated = (type.comments_overlay && !commentsOpen) || (type.share_overlay && !shareOpen)
-  const commentsHandled = type.id === 'comments'
+  const commentsHandled = type.id === 'open_comments'
     && (commentsWasOpened || isCompleted || feedback === 'success')
   const shareHandled = type.id === 'share'
     && (shareWasOpened || isCompleted || feedback === 'success')
@@ -86,7 +86,7 @@ export default function Instruction({
     || (type.id === 'scroll_up' && scrollDirection === 'up')
 
   useEffect(() => {
-    if (type.id === 'comments' && commentsOpen) {
+    if (type.id === 'open_comments' && commentsOpen) {
       setCommentsWasOpened(true)
     }
   }, [type.id, commentsOpen])
@@ -196,7 +196,8 @@ export default function Instruction({
     return () => cancelAnimationFrame(frame)
   }, [visible, runId, exiting])
 
-  if (type.id === 'search_into_video_close' && isCompleted) return null
+  if (type.id === 'comment' && (feedback === 'success' || isCompleted)) return null
+  if (type.id === 'search_into_video_close' && (feedback === 'success' || isCompleted)) return null
   if (!active || !displayed) return null
   if (usesThinkDisplayTexts(type.id) && !thinkDisplayText) return null
 

@@ -72,6 +72,7 @@ const gameSlice = createSlice({
     speedUpPromptSeen: false,
     commentsOpen: false,
     commentsTopBlueText: null,
+    commentsSuggestedComment: '',
     commentsScrolling: false,
     searchOpen: false,
     shareOpen: false,
@@ -87,6 +88,9 @@ const gameSlice = createSlice({
       const topBlueText = typeof payload === 'string' ? payload : payload?.topBlueText
       if (topBlueText !== undefined) {
         s.commentsTopBlueText = topBlueText || null
+      }
+      if (payload?.suggestedComment !== undefined) {
+        s.commentsSuggestedComment = payload.suggestedComment || ''
       }
     },
     closeComments: (s) => {
@@ -158,6 +162,7 @@ const gameSlice = createSlice({
     },
     instructionPageActive: (s, { payload: { pageIndex, instructions } }) => {
       s.commentsTopBlueText = null
+      s.commentsSuggestedComment = ''
       s.instructionSession = {
         pageIndex,
         instructions,
@@ -241,6 +246,7 @@ const gameSlice = createSlice({
       s.speedUpPromptSeen = false
       s.commentsOpen = false
       s.commentsTopBlueText = null
+      s.commentsSuggestedComment = ''
       s.commentsScrolling = false
       s.searchOpen = false
       s.shareOpen = false

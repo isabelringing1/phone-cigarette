@@ -718,6 +718,20 @@ button{
   color: #000;
 }
 
+.instruction-comment {
+  --instruction-timer-base: #000;
+  color: #000;
+  transition: bottom 220ms ease;
+}
+
+.instruction-comment .instruction-text {
+  font-size: 8vw;
+}
+
+.comments-overlay--keyboard-open .instruction-comment {
+  bottom: 41dvh !important;
+}
+
 .instruction-send_post {
   --instruction-timer-base: #000;
   color: #000 !important;
@@ -1007,7 +1021,7 @@ button{
 }
 
 .comments-search-query-active {
-  background: radial-gradient(circle at center, rgba(255, 236, 120, 1) 0%, rgba(255, 236, 120, 0.9) 95.3%, transparent 105%), #ffffff00;
+  background: radial-gradient(circle at center, #ffec78 0%, rgba(255, 236, 120, 0.9) 95.3%, transparent 105%), #ffffff00;
 }
 
 .comments-search-query:disabled {
@@ -1104,6 +1118,24 @@ button{
   background: #e8e8e8;
 }
 
+.comment-username--real {
+  width: auto;
+  height: auto;
+  margin-bottom: 3px;
+  background: transparent;
+  color: #777;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.comment-content--real {
+  width: auto;
+  background: transparent;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
 .comments-input-bar {
   flex-shrink: 0;
   display: flex;
@@ -1124,19 +1156,39 @@ button{
 
 .comments-input-field {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   min-height: 36px;
   padding: 0 12px;
+  border: 0;
   border-radius: 18px;
   background: #f1f1f1;
+  color: #111;
+  font: inherit;
+  letter-spacing: normal;
+  text-align: left;
+  transition: box-shadow 150ms ease;
+}
+
+.comments-input-field:disabled {
+  cursor: default;
+}
+
+.comments-input-bar--active:not(.comments-input-bar--ready-to-submit) .comments-input-field,
+.comments-input-bar--active.comments-input-bar--ready-to-submit .comments-submit {
+  box-shadow: 0 0 18px 7px rgba(255, 236, 120, 0.8);
 }
 
 .comments-input-placeholder {
+  min-width: 0;
+  overflow: hidden;
   font-size: 14px;
-  color: #999;
+  color: #555;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 .comments-input-actions {
@@ -1144,6 +1196,101 @@ button{
   align-items: center;
   gap: 10px;
   color: #666;
+}
+
+.comments-submit {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 15px;
+  background: #fe6b88;
+  color: #fff;
+  letter-spacing: normal;
+  transition: box-shadow 150ms ease;
+}
+
+.comments-submit:active {
+  transform: scale(0.94);
+}
+
+.comments-keyboard {
+  flex: 0 0 0;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #d7d9dd;
+  transition: flex-basis 220ms ease, height 220ms ease, padding 220ms ease;
+}
+
+.comments-overlay--keyboard-open .comments-keyboard {
+  flex-basis: 30dvh;
+  height: 30dvh;
+  padding-top: 9px;
+  padding-bottom: calc(9px + env(safe-area-inset-bottom, 0px));
+}
+
+.comments-keyboard-row {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  min-height: 0;
+}
+
+.comments-keyboard-row--1 {
+  padding: 0 4vw;
+}
+
+.comments-keyboard-row--2 {
+  padding: 0 1.5vw;
+}
+
+.comments-keyboard-row--3 {
+  padding: 0 5px;
+}
+
+.comments-keyboard-key {
+  flex: 1;
+  max-width: 9.2vw;
+  height: 90%;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 60ms ease;
+}
+
+.comments-keyboard-row--3 .comments-keyboard-key {
+  max-width: none;
+  background: #aeb2b8;
+}
+
+.comments-keyboard-row--3 .comments-keyboard-key--space {
+  flex: 4;
+  background: #fff;
+}
+
+.comments-keyboard-key:active {
+  background: #e5e5e5;
+}
+
+.comments-keyboard-row--3 .comments-keyboard-key:active {
+  background: #989ca2;
+}
+
+.comments-keyboard-row--3 .comments-keyboard-key--space:active {
+  background: #e5e5e5;
 }
 
 .search-page {

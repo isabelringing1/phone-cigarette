@@ -40,7 +40,7 @@ export default function PageMenu({
   const highlightLike = sessionMatchesPage
     && isIconInstructionHighlighted(session, 'like', iconHighlightContext)
   const highlightComments = sessionMatchesPage
-    && isIconInstructionHighlighted(session, 'comments', iconHighlightContext)
+    && isIconInstructionHighlighted(session, 'open_comments', iconHighlightContext)
   const highlightSave = sessionMatchesPage
     && isIconInstructionHighlighted(session, 'save', iconHighlightContext)
   const highlightShare = sessionMatchesPage
@@ -58,7 +58,10 @@ export default function PageMenu({
       dispatch(togglePageEngagement({ pageIndex: index, name }))
     }
     if (name === 'comment') {
-      dispatch(openComments({ topBlueText: searchText }))
+      dispatch(openComments({
+        topBlueText: searchText,
+        suggestedComment: caption.comment,
+      }))
     }
     if (name === 'share') {
       dispatch(openShare())

@@ -20,9 +20,9 @@ export const instructionMatchers = {
     action.type === 'button' && action.name === 'share',
 
   comment: (action) =>
-    action.type === 'button' && action.name === 'comment',
+    action.type === 'comment',
 
-  comments: (action) =>
+  open_comments: (action) =>
     action.type === 'button' && action.name === 'comment',
 
   close_comments: (action) =>

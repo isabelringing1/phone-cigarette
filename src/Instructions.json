@@ -41,12 +41,21 @@
     "position": { "vw": 80, "dvh": 42.5, "anchor": "center right" }
   },
   {
-    "id": "comments",
+    "id": "open_comments",
     "display_text": "Open",
     "time_bounds": [3000, 3000],
     "time_limit": 2000,
     "blocking": true,
     "position": { "vw": 80, "dvh": 33, "anchor": "center right" }
+  },
+  {
+    "id": "comment",
+    "display_text": "Comment",
+    "time_bounds": [0, 0],
+    "time_limit": 2000,
+    "blocking": true,
+    "comments_overlay": true,
+    "position": { "vw": 50, "dvh": 6 }
   },
   {
     "id": "close_comments",
