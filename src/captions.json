@@ -72,6 +72,25 @@
       ["trying to make a million dollars", "learning to breakdance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
     ],
     "hashtags": ["fyp"],
-    "comments": ["don't give up!", "you've inspired me"]
+    "comments": ["let's gooo", "wait this is so inspiring"]
+  },
+  {
+    "phrase": "{0} of the {1} things {2}",
+    "phrase_data": [
+      ["5", "10", "7"],
+      ["craziest", "most interesting", "most terrifying", "weirdest"],
+      ["I learned at fat camp", "I saw in jail", "I experienced while tripping", "I do to save money"]
+    ],
+    "hashtags": ["fyp", "storytime", "lifehack", "lore"],
+    "comments": ["please make a part two!", "they said for YOU page", "um I'm on the wrong side"]
+  },
+  {
+    "phrase": "{0} honest take on the {1}",
+    "phrase_data": [
+      ["my", "our"],
+      ["only michelin star restaraunt inside a bathroom", "pool noodle factory controversy", "frog farm disaster", "adam sandler movie"]
+    ],
+    "hashtags": ["fyp", "review", "media", "rant"],
+    "comments": ["can someone explain", "respectfully this is bs", "I couldn't have said it better myself"]
   }
 ]

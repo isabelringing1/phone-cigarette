@@ -171,6 +171,8 @@ export default function SearchPage({ query }) {
         {sessionMatchesPage && session.instructions.map((instruction, instructionIndex) => {
           if (!instruction.type.search_overlay) return null
           const isVideoTargetInstruction = /^search_into_video_[0-3]$/.test(instruction.type.id)
+          const hideWhileVideoCloses = instruction.type.id === 'search_into_video_close'
+            && video?.phase === 'closing'
           return (
             <Instruction
               key={`${currentIndex}-${instruction.type.id}-${instructionIndex}`}
@@ -181,7 +183,7 @@ export default function SearchPage({ query }) {
               pageIndex={currentIndex}
               instructionIndex={instructionIndex}
               position={instruction.type.position}
-              hidden={isVideoTargetInstruction}
+              hidden={isVideoTargetInstruction || hideWhileVideoCloses}
             />
           )
         })}
