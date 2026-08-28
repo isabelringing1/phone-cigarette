@@ -169,7 +169,11 @@ export default function SharePanel({ isOpen }) {
                     buttonRef={rowIndex === 0
                       ? (node) => { profileRefs.current[itemIndex] = node }
                       : undefined}
-                    highlighted={rowIndex === 0 && selectedIndex == null && itemIndex === highlightedShareIndex}
+                    highlighted={
+                      rowIndex === 0
+                      && selectedIndex !== highlightedShareIndex
+                      && itemIndex === highlightedShareIndex
+                    }
                     selected={rowIndex === 0 && itemIndex === selectedIndex}
                     profilePicture={rowIndex === 0}
                     onClick={rowIndex === 0 ? () => onShareComponentClick(itemIndex) : undefined}

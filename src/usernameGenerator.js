@@ -68,26 +68,6 @@ export function generateUsername(random = Math.random) {
   return nounCombination(random)
 }
 
-function hashSeed(value) {
-  let hash = 2166136261
-  for (let i = 0; i < value.length; i++) {
-    hash ^= value.charCodeAt(i)
-    hash = Math.imul(hash, 16777619)
-  }
-  return hash >>> 0
-}
-
-function seededRandom(seed) {
-  let state = seed
-  return () => {
-    state += 0x6D2B79F5
-    let value = state
-    value = Math.imul(value ^ (value >>> 15), value | 1)
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61)
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-export function generatePageUsername(index, generation = 0) {
-  return generateUsername(seededRandom(hashSeed(`${generation}:${index}:username`)))
+export function generatePageUsername() {
+  return generateUsername()
 }

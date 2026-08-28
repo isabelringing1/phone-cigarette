@@ -96,6 +96,9 @@ export default function App() {
     const slot = Math.round(scrollTop / h)
     const rawIndex = currentIndex + (slot - PAGES_BEFORE)
     const newIndex = Math.max(MIN_PAGE_INDEX, rawIndex)
+    if (direction === 'down' && isScrollDownActive(session) && newIndex === currentIndex) {
+      return
+    }
     dispatch(playerAction({
       type: 'scroll',
       direction,
@@ -199,15 +202,6 @@ export default function App() {
       }
 
       const scrollTop = el.scrollTop
-      if (
-        isScrollDownActive(game.instructionSession)
-        && lastScrollTopRef.current !== null
-        && scrollTop < lastScrollTopRef.current
-      ) {
-        el.scrollTop = lastScrollTopRef.current
-        return
-      }
-
       if (lastScrollTopRef.current !== null && scrollTop !== lastScrollTopRef.current) {
         const direction = scrollTop > lastScrollTopRef.current ? 'down' : 'up'
         dispatch(setScrollDirection(direction))

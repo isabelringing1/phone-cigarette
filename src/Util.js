@@ -3,7 +3,7 @@ import captions from './captions.json'
 import searchPhrases from './search.json'
 import { FIRST_NAMES, NOUNS, SURNAMES } from './usernameData.js'
 import { generateUsername } from './usernameGenerator.js'
-import { MIN_PAGE_INDEX, rollInstructionDuration, rollInstructionTimeMs, rollInt, rollPercent, timeScalarForIndex } from './pageMeta.js'
+import { MIN_PAGE_INDEX, rollInstructionDuration, rollInstructionTimeMs, timeScalarForIndex } from './pageMeta.js'
 
 export const INSTRUCTION_FADE_MS = 400
 
@@ -221,14 +221,14 @@ export function generateSearchText() {
   })
 }
 
-function appendSearchInstructionIds(ids, index, generation) {
+function appendSearchInstructionIds(ids) {
   ids.push('search')
 
-  if (rollPercent(index, 'search-into-video', generation) < 90) {
-    const firstTarget = rollInt(index, 'search-video-target-1', generation, 1)
+  if (Math.random() * 100 < 90) {
+    const firstTarget = Math.floor(Math.random() * 2)
     ids.push(`search_into_video_${firstTarget}`, 'search_into_video_close')
 
-    if (rollPercent(index, 'search-into-second-video', generation) < 30) {
+    if (Math.random() * 100 < 30) {
       const secondTarget = firstTarget === 0 ? 1 : 0
       ids.push(`search_into_video_${secondTarget}`, 'search_into_video_close')
     }
@@ -237,21 +237,21 @@ function appendSearchInstructionIds(ids, index, generation) {
   ids.push('search_back')
 }
 
-function buildInstructionIdSequence(index, generation) {
+function buildInstructionIdSequence() {
   const ids = ['watch']
 
-  if (rollPercent(index, 'scroll-down-early', generation) < 15) {
+  if (Math.random() * 100 < 15) {
     ids.push('scroll_down')
     return ids
   }
 
-  if (rollPercent(index, 'think', generation) < 60) {
+  if (Math.random() * 100 < 60) {
     ids.push('think')
   }
 
-  if (rollPercent(index, 'speed-up-or-comments', generation) < 75) {
+  if (Math.random() * 100 < 75) {
     ids.push('speed_up')
-    if (rollPercent(index, 'comments-after-speed-up', generation) < 30) {
+    if (Math.random() * 100 < 30) {
       ids.push('open_comments')
     }
   } else {
@@ -259,27 +259,27 @@ function buildInstructionIdSequence(index, generation) {
   }
 
   if (ids.includes('open_comments')) {
-    if (rollPercent(index, 'comment-after-comments-open', generation) < 100 / 3) {
+    if (Math.random() * 100 < 100 / 3) {
       ids.push('comment')
     }
-    if (rollPercent(index, 'scroll-after-comments', generation) < 80) {
+    if (Math.random() * 100 < 80) {
       ids.push('scroll_comments')
     }
-    if (rollPercent(index, 'search-after-comments', generation) < 33) {
-      appendSearchInstructionIds(ids, index, generation)
+    if (Math.random() * 100 < 33) {
+      appendSearchInstructionIds(ids)
     }
     
     ids.push('close_comments')
   }
 
-  if (rollPercent(index, 'think-2', generation) < 40) {
+  if (Math.random() * 100 < 40) {
     ids.push('think_2')
-    if (rollPercent(index, 'think-2-speed-up', generation) < 50 && !ids.includes('speed_up')) {
+    if (Math.random() * 100 < 50 && !ids.includes('speed_up')) {
       ids.push('speed_up')
     }
   }
 
-  const engagementRoll = rollInt(index, 'engagement', generation)
+  const engagementRoll = Math.floor(Math.random() * 101)
   if (engagementRoll <= 40) {
     ids.push('like')
   } else if (engagementRoll <= 50) {
@@ -299,20 +299,20 @@ function buildRevisitInstructionIdSequence() {
   return ['watch', 'scroll_down']
 }
 
-export function generateInstructions(index, generation = 0, zenMode = false, revisit = false) {
+export function generateInstructions(index, zenMode = false, revisit = false) {
   const scalar = zenMode ? 1 : timeScalarForIndex(index)
 
-  const buildInstruction = (instructionType, salt, timeBounds) => {
+  const buildInstruction = (instructionType, timeBounds) => {
     const holdDurationMs = instructionType.duration_bounds
-      ? rollInstructionDuration(index, instructionType.duration_bounds, salt, generation)
+      ? rollInstructionDuration(instructionType.duration_bounds)
       : undefined
     const baseTimeLimit = instructionType.time_limit != null ? instructionType.time_limit * scalar : undefined
 
     return {
       type: instructionType,
       timeMs: instructionType.comments_overlay || instructionType.share_overlay
-        ? rollInstructionTimeMs(index, timeBounds, salt, generation)
-        : rollInstructionTimeMs(index, timeBounds, salt, generation) * scalar,
+        ? rollInstructionTimeMs(timeBounds)
+        : rollInstructionTimeMs(timeBounds) * scalar,
       timeLimit: baseTimeLimit != null && holdDurationMs != null
         ? Math.max(baseTimeLimit, holdDurationMs + 500)
         : baseTimeLimit,
@@ -322,7 +322,7 @@ export function generateInstructions(index, generation = 0, zenMode = false, rev
 
   const attachInstructionParams = (instruction, id) => {
     if (id === 'send_post') {
-      instruction.shareComponentIndex = rollInt(index, 'send-post-target', generation) % 5
+      instruction.shareComponentIndex = Math.floor(Math.random() * 4)
     }
     if (id === 'watch' && index === MIN_PAGE_INDEX && !zenMode) {
       instruction.type = { ...instruction.type, display_text: 'Follow Instructions!' }
@@ -336,16 +336,16 @@ export function generateInstructions(index, generation = 0, zenMode = false, rev
   if (DEBUG_INSTRUCTIONS.length > 0) {
     return DEBUG_INSTRUCTIONS.map((id) => {
       const instructionType = instructionTypeById[id]
-      return attachInstructionParams(buildInstruction(instructionType, id, instructionType.time_bounds), id)
+      return attachInstructionParams(buildInstruction(instructionType, instructionType.time_bounds), id)
     })
   }
 
   const ids = revisit
     ? buildRevisitInstructionIdSequence()
-    : buildInstructionIdSequence(index, generation)
+    : buildInstructionIdSequence()
 
   return ids.map((id) => {
     const instructionType = instructionTypeById[id]
-    return attachInstructionParams(buildInstruction(instructionType, id, instructionType.time_bounds), id)
+    return attachInstructionParams(buildInstruction(instructionType, instructionType.time_bounds), id)
   })
 }

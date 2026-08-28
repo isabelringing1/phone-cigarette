@@ -79,7 +79,7 @@ export default function GameOver() {
         <h1 id="game-over-title" className="game-over-title">Smoke<span style={{ fontSize: '1.3rem' }}> </span>Break<span style={{ fontSize: '1.3rem' }}> </span>Over</h1>
        
         <p className="game-over-message">
-          The time to resume normal life has arrived. Please return to Phone Cigarette as needed.
+          The time has come to resume normal life. Please return to Phone Cigarette as needed.
         </p>
 
         <p className="game-over-duration">Time: {duration}</p>

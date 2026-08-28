@@ -17,7 +17,6 @@ function distanceBetween(first, second) {
 
 export default function Page({ index, active, presentationOnly = false }) {
   const dispatch = useDispatch()
-  const feedGeneration = useSelector((s) => s.feed.feedGeneration)
   const zenMode = useSelector((s) => s.game.zenMode)
   const session = useSelector((s) => s.game.instructionSession)
   const liked = useSelector((s) => s.game.pageEngagement[index]?.liked ?? false)
@@ -26,12 +25,12 @@ export default function Page({ index, active, presentationOnly = false }) {
   const lastDoubleTapRef = useRef(0)
   const [likePulsing, setLikePulsing] = useState(false)
   const instructions = useMemo(
-    () => presentationOnly ? [] : generateInstructions(index, feedGeneration, zenMode),
-    [index, feedGeneration, zenMode, presentationOnly],
+    () => presentationOnly ? [] : generateInstructions(index, zenMode),
+    [index, zenMode, presentationOnly],
   )
   const duration = useMemo(
-    () => durationForIndex(index, feedGeneration),
-    [index, feedGeneration],
+    () => durationForIndex(),
+    [],
   )
 
   useLayoutEffect(() => {

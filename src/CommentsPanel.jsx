@@ -64,19 +64,30 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
   const searchInstructionState = searchInstructionIndex >= 0
     ? session?.states[searchInstructionIndex]
     : null
-  const searchActive = searchInstructionState?.status === 'pending'
+  const searchPending = searchInstructionState?.status === 'pending'
+    && session?.pageIndex === currentIndex
     && searchInstructionState.visible
-    && !searchInstructionState.feedback
+  const searchActive = searchPending && !searchInstructionState.feedback
   const commentInstructionIndex = session?.instructions.findIndex(
     (instruction) => instruction.type.id === 'comment',
   ) ?? -1
   const commentInstructionState = commentInstructionIndex >= 0
     ? session?.states[commentInstructionIndex]
     : null
-  const commentActive = session?.pageIndex === currentIndex
+  const commentPending = session?.pageIndex === currentIndex
     && commentInstructionState?.status === 'pending'
     && commentInstructionState.visible
-    && !commentInstructionState.feedback
+  const commentActive = commentPending && !commentInstructionState.feedback
+  const scrollInstructionIndex = session?.instructions.findIndex(
+    (instruction) => instruction.type.id === 'scroll_comments',
+  ) ?? -1
+  const scrollInstructionState = scrollInstructionIndex >= 0
+    ? session?.states[scrollInstructionIndex]
+    : null
+  const scrollPending = session?.pageIndex === currentIndex
+    && scrollInstructionState?.status === 'pending'
+    && scrollInstructionState.visible
+  const closeBlocked = scrollPending || commentPending || searchPending
   const visibleComment = suggestedComment.slice(0, visibleCommentLength)
 
   useEffect(() => {
@@ -180,6 +191,7 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
   }, [isOpen, mounted, dispatch])
 
   const handleClose = () => {
+    if (closeBlocked) return
     dispatch(playerAction({ type: 'close_comments' }))
     onClose()
   }
@@ -216,6 +228,7 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
         type="button"
         className="comments-dismiss-area"
         onClick={handleClose}
+        disabled={closeBlocked}
         aria-label="Close comments"
       />
       <div ref={panelRef} className="comments-panel">
@@ -237,7 +250,13 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
           <div className="comments-title-row">
             <div className="comments-title" aria-hidden="true" />
             <ListFilter size={18} className="comments-sort-icon" aria-hidden="true" />
-            <button type="button" className="comments-close" onClick={handleClose} aria-label="Close comments">
+            <button
+              type="button"
+              className="comments-close"
+              onClick={handleClose}
+              disabled={closeBlocked}
+              aria-label="Close comments"
+            >
               <X size={22} />
             </button>
           </div>

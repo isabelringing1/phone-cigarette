@@ -3,7 +3,7 @@
     "phrase": "the {0} {1} for {2}",
     "phrase_data": [
       ["cutest", "trendiest", "hottest", "coolest"],
-      ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses", "geriatric cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
+      ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses", "cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
       ["spring", "summer", "fall", "winter", "cuffing season", "your next vacation"]
     ],
     "hashtags": ["fyp", "love", "cute", "shopping", "capitalism"],
@@ -37,13 +37,13 @@
       ["❤️", "💔", "💖✨", "💕"]
     ],
     "hashtags": ["fyp", "cute", "sad", "viral", "dogs", "cats", "babies"],
-    "comments": ["awwww", "my heart", "am i missing something?", "is this ai?"]
+    "comments": ["awwww", "my heart <3", "am i missing something?", "is this ai?"]
   },
   {
     "phrase": "what i packed for my {0} hour shift {1}",
     "phrase_data": [
       ["48", "24", "72"],
-      ["at the ER", "at my tech slop job", "at FurCon 2026", "at the bubble gun warehouse"]
+      ["at the ER", "at my tech slop job", "at FurCon 2026", "at the bubble gum warehouse"]
     ],
     "hashtags": ["fyp", "work", "lunch", "foodie", "sourdough", "sandwich", "mexicanfood"],
     "comments": ["is this satire?", "um no thanks", "this is insane...", "goals"]
@@ -58,8 +58,9 @@
     "comments": ["love this", "wait i'm seated", "crunchy", "yass"]
   },
   {
-    "phrase": "that one friend who {0}",
+    "phrase": "that one {0} who {1}",
     "phrase_data": [
+      ["friend", "teacher", "coworker"],
       ["definitely has committed murder", "low key hates you", "eats grass", "thinks she has ESP"]
     ],
     "hashtags": ["fyp", "skit", "funny", "relationshipgoals", "comedy"],
@@ -68,7 +69,7 @@
   {
     "phrase": "day {0} of {1}",
     "phrase_data": [
-      ["100", "29", "1", "10", "1029", "304"],
+      ["100", "29", "1", "10", "1043", "324", "43", "304", "22", "7"],
       ["trying to make a million dollars", "learning to breakdance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
     ],
     "hashtags": ["fyp"],
@@ -77,7 +78,7 @@
   {
     "phrase": "{0} of the {1} things {2}",
     "phrase_data": [
-      ["5", "10", "7"],
+      ["5", "10", "7", "2", "11"],
       ["craziest", "most interesting", "most terrifying", "weirdest"],
       ["I learned at fat camp", "I saw in jail", "I experienced while tripping", "I do to save money"]
     ],
@@ -88,9 +89,27 @@
     "phrase": "{0} honest take on the {1}",
     "phrase_data": [
       ["my", "our"],
-      ["only michelin star restaraunt inside a bathroom", "pool noodle factory controversy", "frog farm disaster", "adam sandler movie"]
+      ["only michelin star restaraunt inside a bathroom", "pool noodle factory controversy", "frog farm disaster", "recent kpop drama"]
     ],
     "hashtags": ["fyp", "review", "media", "rant"],
-    "comments": ["can someone explain", "respectfully this is bs", "I couldn't have said it better myself"]
+    "comments": ["can someone explain", "respectfully this is bs", "i don't know what's happening but i'm sat"]
+  },
+  {
+    "phrase": "we tried {0} {1} and {2}",
+    "phrase_data": [
+      ["25", "13", "19", "7", "11", "9", "100"],
+      ["versions of vanilla ice cream", "types of cat food", "bang trimming techniques", "countries' national dishes"],
+      ["here's what's best", "ranked them", "#1 will shock you", "they're all trash"]
+    ],
+    "hashtags": ["fyp", "review", "ranking", "yum"],
+    "comments": ["number 3 is underrated", "noo gatekeep #4", "this is my worst nightmare."]
+  },
+  {
+    "phrase": "storytime {0}",
+    "phrase_data": [
+      ["finding my boyfriend was cheating on me with his step aunt", "my roommate kidnapped my cat", "my grandma tried to kill us", "how bugs bunny nearly killed me"]
+    ],
+    "hashtags": ["fyp", "storytime", "drama", "tea"],
+    "comments": ["best tea EVER", "wake me up when there's a part 2!", "everyone in this situation is insane"]
   }
 ]

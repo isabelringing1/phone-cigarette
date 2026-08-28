@@ -10,38 +10,16 @@ export function timeScalarForIndex(index) {
   return Math.max(0, 1 - SPEED_UP_PERCENT * speedUpTierForIndex(index))
 }
 
-export function durationForIndex(index, generation = 0) {
-  const t = Math.abs(Math.sin((index + 1 + generation * 997) * 12.9898) * 43758.5453) % 1
-  return 15 + t * 45
+export function durationForIndex() {
+  return 15 + Math.random() * 45
 }
 
-function stableUnit(index, salt, generation = 0) {
-  const seed = `${generation}:${index}:${salt}`
-  let hash = 0
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) | 0
-  }
-  return Math.abs(Math.sin(hash * 12.9898) * 43758.5453) % 1
-}
-
-export function rollInstructionTimeMs(index, timeBounds, salt, generation = 0) {
+export function rollInstructionTimeMs(timeBounds) {
   const [min, max] = timeBounds
-  return min + stableUnit(index, salt, generation) * (max - min)
+  return min + Math.random() * (max - min)
 }
 
-export function rollInstructionDuration(index, durationBounds, salt, generation = 0) {
+export function rollInstructionDuration(durationBounds) {
   const [min, max] = durationBounds
-  return min + stableUnit(index, `${salt}:duration`, generation) * (max - min)
-}
-
-export function pickInstructionTypeIndex(index, typeCount, generation = 0) {
-  return Math.floor(stableUnit(index, 'instruction-type', generation) * typeCount)
-}
-
-export function rollPercent(index, salt, generation = 0) {
-  return stableUnit(index, salt, generation) * 100
-}
-
-export function rollInt(index, salt, generation = 0, maxInclusive = 100) {
-  return Math.floor(stableUnit(index, salt, generation) * (maxInclusive + 1))
+  return min + Math.random() * (max - min)
 }
