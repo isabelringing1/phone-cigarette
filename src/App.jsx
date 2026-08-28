@@ -254,7 +254,7 @@ export default function App() {
       )}
       <div
         ref={containerRef}
-        className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 ? ' feed--locked' : ''}`}
+        className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 || commentsOpen || searchOpen || shareOpen ? ' feed--locked' : ''}`}
       >
         {gameStarted && Array.from({ length: WINDOW }, (_, slot) => (
           <Page
