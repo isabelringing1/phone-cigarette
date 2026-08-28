@@ -60,7 +60,7 @@
   {
     "id": "close_comments",
     "display_text": "Close",
-    "time_bounds": [1000, 1000],
+    "time_bounds": [500, 500],
     "time_limit": 2000,
     "blocking": true,
     "comments_overlay": true,

@@ -97,7 +97,7 @@ export default function PageMenu({
         </button>
         <button
           type="button"
-          className={`page-action${highlightComments ? ' page-action--highlight' : ''}`}
+          className={`page-action${highlightComments ? ' page-action--highlight page-action--comments-highlight' : ''}`}
           aria-label="Comment"
           onClick={() => onButton('comment')}
         >

@@ -188,7 +188,11 @@ export default function SharePanel({ isOpen }) {
             <div className="share-message-placeholder">
               <TypingMessage key={`${currentIndex}-${selectedIndex}`} message={shareMessage} />
             </div>
-            <button type="button" className="share-send-button" onClick={handleSend}>
+            <button
+              type="button"
+              className={`share-send-button${selectedIndex === highlightedShareIndex ? ' share-send-button--highlighted' : ''}`}
+              onClick={handleSend}
+            >
               Send
             </button>
           </div>

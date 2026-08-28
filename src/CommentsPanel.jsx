@@ -87,7 +87,21 @@ export default function CommentsPanel({ isOpen, onClose, onSearch, topBlueText =
   const scrollPending = session?.pageIndex === currentIndex
     && scrollInstructionState?.status === 'pending'
     && scrollInstructionState.visible
-  const closeBlocked = scrollPending || commentPending || searchPending
+  const closeInstructionIndex = session?.instructions.findIndex(
+    (instruction) => instruction.type.id === 'close_comments',
+  ) ?? -1
+  const closeInstructionState = closeInstructionIndex >= 0
+    ? session?.states[closeInstructionIndex]
+    : null
+  const closeInstructionPending = session?.pageIndex === currentIndex
+    && closeInstructionState?.status === 'pending'
+  const closeInstructionActive = closeInstructionPending
+    && closeInstructionState.visible
+    && !closeInstructionState.feedback
+  const closeBlocked = scrollPending
+    || commentPending
+    || searchPending
+    || (closeInstructionPending && !closeInstructionActive)
   const visibleComment = suggestedComment.slice(0, visibleCommentLength)
 
   useEffect(() => {

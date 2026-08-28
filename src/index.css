@@ -624,6 +624,27 @@ button{
   border-radius: 50%;
 }
 
+.page-actions .page-action--comments-highlight {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+}
+
+.page-actions .page-action--comments-highlight::before {
+  content: '';
+  position: absolute;
+  width: 125%;
+  height: 125%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 236, 120, 1) 0%,
+    rgba(255, 237, 120, 0.25) 35%,
+    transparent 75%
+  );
+}
+
 .page-duration {
   position: absolute;
   bottom: var(--page-bottom);
@@ -1819,11 +1840,14 @@ button{
   border-radius: 999px;
   background: #fe2c55;
   color: #fff;
-  box-shadow: 0 0 18px 8px rgba(255, 236, 120, 0.9);
   font: inherit;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.share-send-button--highlighted {
+  box-shadow: 0 0 18px 8px rgba(255, 236, 120, 0.9);
 }
 
 .share-send-button:active {
