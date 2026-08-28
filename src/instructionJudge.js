@@ -59,14 +59,11 @@ export function setupInstructionJudge({
   setIndex,
   closeShare,
 }) {
-  function completeInstruction(api, instructionIndex, pendingIndex) {
+  function completeInstruction(api, instructionIndex) {
     api.dispatch(instructionSucceeded({ instructionIndex }))
     setTimeout(() => {
       if (api.getState().game.instructionSession?.states[instructionIndex]?.feedback === 'success') {
         api.dispatch(instructionCompleted({ instructionIndex }))
-        if (pendingIndex !== undefined) {
-          api.dispatch(setIndex(pendingIndex))
-        }
       }
     }, FEEDBACK_MS)
   }
@@ -283,7 +280,7 @@ export function setupInstructionJudge({
 
         if (match) {
           const { i, instruction } = match
-          completeInstruction(api, i, action.payload.pendingIndex)
+          completeInstruction(api, i)
           if (instruction.type.id === 'send_post') {
             api.dispatch(closeShare())
           }

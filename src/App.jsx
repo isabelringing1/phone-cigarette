@@ -43,6 +43,7 @@ export default function App() {
   const ignoreScrollRef = useRef(false)
   const lastScrollTopRef = useRef(null)
   const scrollJudgedRef = useRef(false)
+  const scrollDownCommittedRef = useRef(false)
 
   useEffect(() => {
     const autostart = sessionStorage.getItem('doomscroller-autostart')
@@ -96,8 +97,9 @@ export default function App() {
     const slot = Math.round(scrollTop / h)
     const rawIndex = currentIndex + (slot - PAGES_BEFORE)
     const newIndex = Math.max(MIN_PAGE_INDEX, rawIndex)
-    if (direction === 'down' && isScrollDownActive(session) && newIndex === currentIndex) {
-      return
+    if (direction === 'down' && isScrollDownActive(session)) {
+      if (newIndex === currentIndex) return
+      scrollDownCommittedRef.current = true
     }
     dispatch(playerAction({
       type: 'scroll',
@@ -119,6 +121,7 @@ export default function App() {
     if (!el) return
 
     ignoreScrollRef.current = true
+    scrollDownCommittedRef.current = false
 
     if (gameStarted) {
       el.scrollTop = PAGES_BEFORE * el.clientHeight
@@ -175,9 +178,11 @@ export default function App() {
           }
         }
         const hasFeedback = store.getState().game.instructionSession?.states?.some((s) => s.feedback)
-        if (!hasFeedback) {
-          dispatch(setIndex(newIndex))
+        if (hasFeedback) {
+          t = setTimeout(sync, 50)
+          return
         }
+        dispatch(setIndex(newIndex))
       }
     }
 
@@ -202,6 +207,15 @@ export default function App() {
       }
 
       const scrollTop = el.scrollTop
+      if (
+        scrollDownCommittedRef.current
+        && lastScrollTopRef.current !== null
+        && scrollTop < lastScrollTopRef.current
+      ) {
+        el.scrollTop = lastScrollTopRef.current
+        return
+      }
+
       if (lastScrollTopRef.current !== null && scrollTop !== lastScrollTopRef.current) {
         const direction = scrollTop > lastScrollTopRef.current ? 'down' : 'up'
         dispatch(setScrollDirection(direction))
