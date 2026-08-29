@@ -1,5 +1,6 @@
 import {
   FIRST_NAMES,
+  INTERESTS,
   NOUNS,
   SURNAMES,
   USERNAME_EMOJIS,
@@ -56,6 +57,23 @@ function nounCombination(random) {
     : words.split(' ').map(capitalize).join(' ')
 }
 
+function nameAndInterests(random) {
+  const firstName = capitalize(pick(FIRST_NAMES, random))
+  const firstIndex = Math.floor(random() * INTERESTS.length)
+  let secondIndex = Math.floor(random() * (INTERESTS.length - 1))
+  if (secondIndex >= firstIndex) secondIndex += 1
+
+  return `${firstName} | ${INTERESTS[firstIndex]} & ${INTERESTS[secondIndex]}`
+}
+
+function firstNamePair(random) {
+  const firstIndex = Math.floor(random() * FIRST_NAMES.length)
+  let secondIndex = Math.floor(random() * (FIRST_NAMES.length - 1))
+  if (secondIndex >= firstIndex) secondIndex += 1
+
+  return `${capitalize(FIRST_NAMES[firstIndex])} And ${capitalize(FIRST_NAMES[secondIndex])}`
+}
+
 export function generateUsername(random = Math.random) {
   const typeRoll = random()
 
@@ -65,7 +83,9 @@ export function generateUsername(random = Math.random) {
   if (typeRoll < 0.6) return firstNameOnly(random)
   if (typeRoll < 0.75) return initialSurnameNumber(random)
   if (typeRoll < 0.8) return randomLetters(random)
-  return nounCombination(random)
+  if (typeRoll < 0.9) return nounCombination(random)
+  if (typeRoll < 0.95) return nameAndInterests(random)
+  return firstNamePair(random)
 }
 
 export function generatePageUsername() {

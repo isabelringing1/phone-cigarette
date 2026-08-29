@@ -101,6 +101,16 @@ export const FIRST_NAMES = [
   'jasper',
 ]
 
+export const INTERESTS = [
+  'lifestyle',
+  'beauty',
+  'diy',
+  'renovations',
+  'anime',
+  'fashion',
+  'luxury',
+]
+
 export const SURNAMES = [
   'smith',
   'johnson',

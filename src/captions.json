@@ -3,7 +3,7 @@
     "phrase": "the {0} {1} for {2}",
     "phrase_data": [
       ["cutest", "trendiest", "hottest", "coolest"],
-      ["workout sets", "makeup products", "purses", "sneakers", "maxi dresses", "cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
+      ["workout sets", "natural blushes", "purses", "sneakers", "maxi dresses", "cat toys", "anime box set collections", "waifu pillowcases", "satanic summoning rituals", "body pillows", "rituals to wake the dead"],
       ["spring", "summer", "fall", "winter", "cuffing season", "your next vacation"]
     ],
     "hashtags": ["fyp", "love", "cute", "shopping", "capitalism"],
@@ -14,7 +14,7 @@
     "phrase_data": [
       ["restaurant", "bar", "cafe", "store", "museum", "natural landmark"],
       ["nyc", "sf", "seattle", "la", "seoul", "london", "hell", "the tri state area", "the world", "this hemisphere"],
-      ["chilling", "coworking", "napping", "exploring", "killing time", "doing your taxes", "crying", "fucking around", "loudly braeking up", "spying on your stepdad"]
+      ["chilling", "coworking", "napping", "exploring", "killing time", "doing your taxes", "crying", "fucking around", "loudly braeking up", "spying on your stepdad", "recording a slam poetry album", "practicing backflips", "selling off your firstborn"]
     ],
     "hashtags": ["fyp", "travel", "food", "inspo"],
     "comments": ["doing this next time", "saving for my next trip"]
@@ -23,7 +23,7 @@
     "phrase": "grwm to {0}",
     "level_bounds": [1, 2],
     "phrase_data": [
-      ["go to the pool", "get laid off", "break up with my cheating bf", "go on a first date post divorce"]
+      ["go to the pool", "get laid off", "break up with my cheating bf", "go on a first date post divorce", "go to prom", "go to our homecoming football game", "commit arson", "watch the bee movie in IMAX"]
     ],
     "hashtags": ["fyp", "grwm", "summer", "beauty", "yap"],
     "comments": ["wait i'm seated", "teaaaa", "i can't tell if this is real or not"]
@@ -42,8 +42,8 @@
   {
     "phrase": "what i packed for my {0} hour shift {1}",
     "phrase_data": [
-      ["48", "24", "72"],
-      ["at the ER", "at my tech slop job", "at FurCon 2026", "at the bubble gum warehouse"]
+      ["48", "24", "72", "12"],
+      ["at the ER", "at my tech slop job", "at FurCon 2026", "at the bubble gum warehouse", "testing rollercoasters", "as a line cook", "at the alarm clock factory"]
     ],
     "hashtags": ["fyp", "work", "lunch", "foodie", "sourdough", "sandwich", "mexicanfood"],
     "comments": ["is this satire?", "um no thanks", "this is insane...", "goals"]
@@ -51,45 +51,45 @@
   {
     "phrase": "asmr {0} {1}",
     "phrase_data": [
-      ["food", "slime", "mukbang", "cat spa", "dog spa", "fridge restock"],
+      ["food", "slime", "mukbang", "cat spa", "dog spa", "fridge restock", "focaccia reset", "frog bath", "fidget toy", "making popcorn"],
       ["uncensored", "crunchy", "💥", "forbidden..."]
     ],
     "hashtags": ["fyp", "asmr", "sleep", "asmrtok", "yum"],
-    "comments": ["love this", "wait i'm seated", "crunchy", "yass"]
+    "comments": ["so satisfying", "wait i'm seated", "so crunchy", "yass"]
   },
   {
     "phrase": "that one {0} who {1}",
     "phrase_data": [
       ["friend", "teacher", "coworker"],
-      ["definitely has committed murder", "low key hates you", "eats grass", "thinks she has ESP"]
+      ["definitely has committed murder", "low key hates you", "eats grass", "thinks she has ESP", "is convinced her dog can talk", "thinks she's better than you", "tries too hard to be your best friend", "likes boys too much"]
     ],
     "hashtags": ["fyp", "skit", "funny", "relationshipgoals", "comedy"],
-    "comments": ["oddly specific but ok", "when it's not even satire anymore 😭"]
+    "comments": ["oddly specific but ok", "when it's not even satire", "literally my life"]
   },
   {
     "phrase": "day {0} of {1}",
     "phrase_data": [
-      ["100", "29", "1", "10", "1043", "324", "43", "304", "22", "7"],
+      ["100", "29", "1", "10", "843", "324", "43", "304", "22", "7"],
       ["trying to make a million dollars", "learning to breakdance", "kissing random people on the street", "LARPing as a frog", "infiltrating scientology", "learning to hit on women"]
     ],
     "hashtags": ["fyp"],
-    "comments": ["let's gooo", "wait this is so inspiring"]
+    "comments": ["let's gooo", "wait this is so inspiring", "i've been here since day 1!s"]
   },
   {
     "phrase": "{0} of the {1} things {2}",
     "phrase_data": [
-      ["5", "10", "7", "2", "11"],
+      ["5", "10", "7", "9", "11"],
       ["craziest", "most interesting", "most terrifying", "weirdest"],
-      ["I learned at fat camp", "I saw in jail", "I experienced while tripping", "I do to save money"]
+      ["I learned at fat camp", "I saw in jail", "I experienced while tripping", "I do to save money", "you should know if you're in law school", "to watch out for in Europe"]
     ],
     "hashtags": ["fyp", "storytime", "lifehack", "lore"],
-    "comments": ["please make a part two!", "they said for YOU page", "um I'm on the wrong side"]
+    "comments": ["please make a part two!", "actually SO helpful thank you", "I'm in the wrong place"]
   },
   {
     "phrase": "{0} honest take on the {1}",
     "phrase_data": [
       ["my", "our"],
-      ["only michelin star restaraunt inside a bathroom", "pool noodle factory controversy", "frog farm disaster", "recent kpop drama"]
+      ["only michelin star restaraunt inside a bathroom", "pool noodle factory controversy", "frog farm disaster", "recent kpop drama", "hamburglar lawsuit developments"]
     ],
     "hashtags": ["fyp", "review", "media", "rant"],
     "comments": ["can someone explain", "respectfully this is bs", "i don't know what's happening but i'm sat"]
@@ -98,8 +98,8 @@
     "phrase": "we tried {0} {1} and {2}",
     "phrase_data": [
       ["25", "13", "19", "7", "11", "9", "100"],
-      ["versions of vanilla ice cream", "types of cat food", "bang trimming techniques", "countries' national dishes"],
-      ["here's what's best", "ranked them", "#1 will shock you", "they're all trash"]
+      ["versions of vanilla ice cream", "types of cat food", "bang trimming techniques", "countries' national dishes", "types of mulch", "gardening tools", "kids party favors"],
+      ["here's what's best", "ranked them", "number1 will shock you", "they're all trash"]
     ],
     "hashtags": ["fyp", "review", "ranking", "yum"],
     "comments": ["number 3 is underrated", "noo gatekeep #4", "this is my worst nightmare."]
@@ -107,7 +107,7 @@
   {
     "phrase": "storytime {0}",
     "phrase_data": [
-      ["finding my boyfriend was cheating on me with his step aunt", "my roommate kidnapped my cat", "my grandma tried to kill us", "how bugs bunny nearly killed me"]
+      ["finding my boyfriend was cheating on me with his step aunt", "my roommate kidnapped my cat", "my grandma tried to kill us", "how my brother's rabbit nearly killed me"]
     ],
     "hashtags": ["fyp", "storytime", "drama", "tea"],
     "comments": ["best tea EVER", "i NEED a part 2", "everyone in this situation is insane"]
