@@ -1,5 +1,14 @@
 [
   {
+    "phrase": "if you're not {0}, {1}",
+    "phrase_data": [
+      ["using these money saving tips", "shopping at these cool girl stores", "using these psychological tricks in interviews", "doing these baking hacks", "shopping these sales", "listening to these new artists", "watching these tv shows"],
+      ["you're doing someting wrong", "you're missing out", "you need to try it out", "you're behind the curve"]
+    ],
+    "hashtags": ["fyp", "trending", "tips", "media"],
+    "comments": ["pls make a part 2!", "whoa mind blown", "i had no idea"]
+  },
+  {
     "phrase": "the {0} {1} for {2}",
     "phrase_data": [
       ["cutest", "trendiest", "hottest", "coolest"],
@@ -99,7 +108,7 @@
     "phrase_data": [
       ["25", "13", "19", "7", "11", "9", "100"],
       ["versions of vanilla ice cream", "types of cat food", "bang trimming techniques", "countries' national dishes", "types of mulch", "gardening tools", "kids party favors"],
-      ["here's what's best", "ranked them", "number1 will shock you", "they're all trash"]
+      ["here's what's best", "ranked them", "number 1 will shock you", "they're all trash"]
     ],
     "hashtags": ["fyp", "review", "ranking", "yum"],
     "comments": ["number 3 is underrated", "noo gatekeep #4", "this is my worst nightmare."]

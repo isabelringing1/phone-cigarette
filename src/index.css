@@ -1363,7 +1363,7 @@ button{
 }
 
 .instruction-search_into_video_close {
-  color: #fff;
+  color: #ffff9c;
 }
 
 .instruction-search_into_video_close .instruction-text {
@@ -1505,10 +1505,15 @@ button{
 }
 
 .search-page-watch {
-  color: #fff;
-  font-family: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: clamp(24px, 8vw, 44px);
-  font-weight: 500;
+  color: #ffff9c;
+  font-size: 8vw;
+  font-weight: 400;
+  width: 100%;
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+  line-height: 1.1;
+  font-family: 'Roboto Condensed';
 }
 
 .search-page-result-copy {

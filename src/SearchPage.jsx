@@ -189,7 +189,7 @@ export default function SearchPage({ query }) {
         })}
       </div>
 
-      <header className={`search-page-header${backActive ? ' search-page-header--back-prompt' : ''}`}>
+      <header className="search-page-header">
         <button type="button" className="search-page-back" onClick={exitPage} aria-label="Go Back">
           <ChevronLeft size={30} />
         </button>

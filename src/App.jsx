@@ -27,6 +27,18 @@ const PAGES_BEFORE = 1
 const PAGES_AFTER = 2
 const WINDOW = PAGES_BEFORE + 1 + PAGES_AFTER
 
+function getNavigationScrollDirection(session) {
+  const active = session?.instructions?.find(
+    (instruction, i) =>
+      (instruction.type.id === 'scroll_down' || instruction.type.id === 'scroll_up')
+      && session.states[i]?.status === 'pending'
+      && session.states[i].visible,
+  )
+  if (!active) return null
+  if (active.type.id === 'scroll_up') return 'up'
+  return active.type.params?.direction ?? 'down'
+}
+
 export default function App() {
   const currentIndex = useSelector((s) => s.feed.currentIndex)
   const feedGeneration = useSelector((s) => s.feed.feedGeneration)
@@ -38,6 +50,9 @@ export default function App() {
   const commentsTopBlueText = useSelector((s) => s.game.commentsTopBlueText)
   const searchOpen = useSelector((s) => s.game.searchOpen)
   const shareOpen = useSelector((s) => s.game.shareOpen)
+  const navigationScrollActive = useSelector((s) =>
+    getNavigationScrollDirection(s.game.instructionSession) !== null,
+  )
   const dispatch = useDispatch()
   const containerRef = useRef(null)
   const ignoreScrollRef = useRef(false)
@@ -139,6 +154,46 @@ export default function App() {
     const el = containerRef.current
     if (!el) return
     let t
+    let lastTouchY = null
+
+    const directionIsBlocked = (direction) => {
+      const activeDirection = getNavigationScrollDirection(
+        store.getState().game.instructionSession,
+      )
+      return activeDirection !== null && direction !== activeDirection
+    }
+
+    const onWheel = (event) => {
+      if (event.deltaY === 0) return
+      const direction = event.deltaY > 0 ? 'down' : 'up'
+      if (directionIsBlocked(direction)) event.preventDefault()
+    }
+
+    const onTouchStart = (event) => {
+      lastTouchY = event.touches[0]?.clientY ?? null
+    }
+
+    const onTouchMove = (event) => {
+      const touchY = event.touches[0]?.clientY
+      if (lastTouchY === null || touchY === undefined || touchY === lastTouchY) return
+      const direction = touchY < lastTouchY ? 'down' : 'up'
+      lastTouchY = touchY
+      if (directionIsBlocked(direction)) event.preventDefault()
+    }
+
+    const onKeyDown = (event) => {
+      const up = event.key === 'ArrowUp'
+        || event.key === 'PageUp'
+        || event.key === 'Home'
+        || (event.key === ' ' && event.shiftKey)
+      const down = event.key === 'ArrowDown'
+        || event.key === 'PageDown'
+        || event.key === 'End'
+        || (event.key === ' ' && !event.shiftKey)
+      if ((up && directionIsBlocked('up')) || (down && directionIsBlocked('down'))) {
+        event.preventDefault()
+      }
+    }
 
     const sync = () => {
       if (ignoreScrollRef.current || !titleDismissed) return
@@ -218,6 +273,10 @@ export default function App() {
 
       if (lastScrollTopRef.current !== null && scrollTop !== lastScrollTopRef.current) {
         const direction = scrollTop > lastScrollTopRef.current ? 'down' : 'up'
+        if (directionIsBlocked(direction)) {
+          el.scrollTop = lastScrollTopRef.current
+          return
+        }
         dispatch(setScrollDirection(direction))
         if (!scrollJudgedRef.current) {
           dispatchScrollAction(direction, scrollTop, h)
@@ -234,8 +293,16 @@ export default function App() {
     }
 
     el.addEventListener('scroll', onScroll, { passive: true })
+    el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('keydown', onKeyDown)
     return () => {
       el.removeEventListener('scroll', onScroll)
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('keydown', onKeyDown)
       clearTimeout(t)
     }
   }, [dispatch, currentIndex, gameStarted, titleDismissed])
@@ -268,7 +335,7 @@ export default function App() {
       )}
       <div
         ref={containerRef}
-        className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 || commentsOpen || searchOpen || shareOpen ? ' feed--locked' : ''}`}
+        className={`feed${!gameStarted ? ' feed--title' : ''}${health <= 0 || commentsOpen || searchOpen || shareOpen || !navigationScrollActive ? ' feed--locked' : ''}`}
       >
         {gameStarted && Array.from({ length: WINDOW }, (_, slot) => (
           <Page
